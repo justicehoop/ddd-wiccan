@@ -1,0 +1,11 @@
+rootProject.name = 'wiccan'
+
+include 'commons'
+
+//include 'baeminz-event-subscriber'
+
+include 'service-exception-handler'
+
+include 'wiccan-core'
+include 'wiccan-server'
+include 'wiccan-entity'

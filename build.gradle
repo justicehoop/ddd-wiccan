@@ -1,0 +1,321 @@
+group 'com.woowahan.wiccan'
+group 'com.woowahan.wiccan'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+def entityProjects = [project(':commons'),
+                      project(':wiccan-core')]
+
+ext {
+    slf4jVersion = '1.7.21'
+    queryDslVersion='4.1.2'
+    javaVersion = '1.8'
+    hibernatePersistenceApiVersion='1.0.0.Final'
+    springSecurityJwtVersion = '1.0.4.RELEASE'
+    springSecurityTestVersion = '4.0.1.RELEASE'
+    springSecurityOAuth2Version ='2.0.9.RELEASE'
+    springCloudSecurityVersion = '1.0.3.RELEASE' //없애야 함
+    swaggerVersion = '2.6.0'
+    swaggerAnnotationVersion = '1.5.10'
+    mysqlDatabase = '5.1.35'
+    ultraqThymeleafeVersion= '1.3.3'
+    awsSdkVersion = '1.10.76'
+    springCloudVersion = '1.1.0.RELEASE'
+    poiVersion = '3.12'
+    jusoClientVersion = '1.9-SNAPSHOT'
+    baeminModulesVersion = '0.2.0.BUILD-SNAPSHOT'
+    logBackVersion = '1.1.7'
+    modelMapperVersion = '0.7.6'
+    lombokVersion = '1.16.8'
+    poiVersion = '3.12'
+    hivernateValidatorVersion = '5.2.1.Final'
+    jedisVersion = '2.9.0'
+    springSessionDataRedisVersion = '1.3.0.RELEASE'
+    springDataRedisVersion = '1.8.0.RELEASE'
+    akkaVersion = '2.4.16'
+}
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://plugins.gradle.org/m2/"
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "http://nexus.woowa.in/content/groups/public" }
+        maven { url "http://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.10.76/" }
+        maven { url "https://plugins.gradle.org/m2/"}
+        maven { url "https://jcenter.bintray.com/" }
+        maven { url "http://repo.spring.io/libs-milestone" }
+        maven { url "http://repo.spring.io/libs-snapshot" }
+    }
+    ext {
+        springBootVersion = '1.4.1.RELEASE'
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "com.moowork.gradle:gradle-node-plugin:0.12"
+        classpath 'com.moowork.gradle:gradle-gulp-plugin:0.12'
+    }
+}
+
+configure(entityProjects) {
+    apply plugin: 'java'
+
+    description = "wiccan-agent entity project"
+
+    dependencies {
+        compile('org.springframework.data:spring-data-jpa')
+        compile("com.querydsl:querydsl-apt:$queryDslVersion")
+        compile "com.querydsl:querydsl-jpa:$queryDslVersion"
+        runtime('com.h2database:h2')
+        compile "org.hibernate:hibernate-validator:${hivernateValidatorVersion}"
+        compile("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${hibernatePersistenceApiVersion}")
+        compile("com.fasterxml.jackson.core:jackson-databind")
+
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
+
+    sourceSets {
+        generated {
+            java {
+                srcDirs = ['src/main/generated']
+            }
+        }
+    }
+
+    configurations {
+        querydslapt
+    }
+
+    task generateQueryDSL(type: JavaCompile, group: 'build', description: 'Generates the QueryDSL query types') {
+        source = sourceSets.main.java
+        classpath = configurations.compile + configurations.querydslapt
+        options.compilerArgs = [
+                "-proc:only",
+                "-processor", "com.querydsl.apt.jpa.JPAAnnotationProcessor"
+        ]
+        destinationDir = sourceSets.generated.java.srcDirs.iterator().next()
+    }
+
+    compileJava {
+        dependsOn generateQueryDSL
+        source generateQueryDSL.destinationDir
+    }
+
+    compileGeneratedJava {
+        dependsOn generateQueryDSL
+        options.warnings = false
+        classpath += sourceSets.main.runtimeClasspath
+    }
+
+    clean {
+        delete sourceSets.generated.java.srcDirs
+    }
+
+
+    task generateDDL(type: JavaExec) {
+        main = 'com.skplanet.recopick.core.infra.SchemaGenerator'
+        classpath = sourceSets.main.runtimeClasspath
+
+        args 'com.skplanet.recopick', 'org.hibernate.dialect.MySQL5InnoDBDialect' , './mysql-ddl.sql'
+    }
+}
+
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'spring-boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceSets {
+        integrationTest {
+            java {
+                compileClasspath += main.output + test.output
+                runtimeClasspath += main.output + test.output
+                srcDir file('src/integration-test/java')
+            }
+            resources.srcDir file('src/integration-test/resources')
+        }
+    }
+
+
+
+    repositories {
+        mavenCentral()
+        maven { url "http://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk/1.10.76/" }
+        maven { url "https://oss.sonatype.org/content/groups/public" }
+        maven { url "http://repo.springsource.org/libs-release" }
+        maven { url "http://repo.springsource.org/libs-milestone" }
+        maven { url "http://repo.springsource.org/plugins-release" }
+        maven { url "http://repo.spring.io/libs-release" }
+        maven { url "https://repository.jboss.org/nexus/content/repository/public/" }
+        maven { url "http://repo.opensourceagility.com/release/" }
+
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:Brixton.SR5"
+        }
+    }
+
+    targetCompatibility = javaVersion
+    sourceCompatibility = javaVersion
+    compileJava.options.encoding = 'UTF-8'
+
+    dependencies {
+        compile("org.projectlombok:lombok:$lombokVersion")
+
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+        testCompile 'com.jayway.jsonpath:json-path:2.0.0'
+
+//        integrationTestCompile('org.assertj:assertj-core:3.4.1')
+    }
+
+    configurations {
+        all*.exclude group: 'commons-logging', module: 'commons-logging' // replaced with jcl-over-slf4j
+        all*.exclude group: 'log4j', module: 'log4j' // replaced with log4j-over-slf4j
+
+        all*.exclude module: 'hsqldb'
+        all*.exclude module: 'slf4j-log4j12'
+
+        integrationTestCompile.extendsFrom testCompile
+        integrationTestRuntime.extendsFrom testRuntime
+    }
+
+
+    //spring boot project info
+    processResources {
+        filesMatching('application.yml') {
+            expand(project.properties)
+        }
+    }
+
+    task integrationTest(type: Test) {
+        testClassesDir = sourceSets.integrationTest.output.classesDir
+        classpath = sourceSets.integrationTest.runtimeClasspath
+    }
+
+    check.dependsOn integrationTest
+    integrationTest.mustRunAfter test
+}
+
+project('commons') {
+    description="This project include utils class that used by other projects."
+    bootRepackage.enabled = false
+
+    dependencies {
+        compile("org.springframework:spring-web")
+        compile("org.apache.httpcomponents:httpclient")
+        compile("org.springframework.security:spring-security-core")
+        compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+        compile "com.fasterxml.jackson.core:jackson-annotations"
+        compile 'com.google.guava:guava:19.0'
+        runtime 'com.h2database:h2'
+        testCompile('org.springframework.boot:spring-boot-starter-test')
+    }
+}
+
+project('service-exception-handler') {
+    description = "예외 처리 handler"
+    bootRepackage.enabled = false
+
+    dependencies {
+
+        compile('org.springframework.boot:spring-boot-starter-web')
+    }
+}
+
+
+
+//project('baeminz-event-subscriber') {
+//    description = "어플리케이션에 발생한 Spring Application Event 를 구독받아 처리하는 모듈"
+//    bootRepackage.enabled = false
+//
+//    javadoc {
+//        options.charSet = 'UTF-8'
+//    }
+//
+//    dependencies {
+//        compile('org.springframework.boot:spring-boot')
+//        compile("org.springframework.data:spring-data-redis:${springDataRedisVersion}")
+//        compile("redis.clients:jedis:${jedisVersion}")
+//    }
+//}
+
+
+project('wiccan-core') {
+    description = "wiccan Core"
+    bootRepackage.enabled = false
+
+    dependencies {
+        compile project(':commons')
+        compile("org.projectlombok:lombok:$lombokVersion")
+    }
+
+}
+
+project('wiccan-entity') {
+    description = "entity. This project include utils class used by other entity projects"
+    bootRepackage.enabled = false
+
+    dependencies {
+        compile project(':commons')
+
+        compile "org.hibernate:hibernate-validator:${hivernateValidatorVersion}"
+        compile("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:${hibernatePersistenceApiVersion}")
+        compile("com.fasterxml.jackson.core:jackson-databind")
+        compile("org.projectlombok:lombok:$lombokVersion")
+    }
+}
+
+project('wiccan-server') {
+    description = "wiccan Server"
+    bootRepackage.enabled = false
+    apply plugin: 'war'
+
+    war {
+        from('src/main/ebextensions') {
+            into('.ebextensions')
+        }
+    }
+
+
+    dependencies {
+        compile project(':wiccan-core')
+        compile("org.projectlombok:lombok:$lombokVersion")
+
+        compile("org.springframework.boot:spring-boot-starter-websocket")
+        compile("org.webjars:webjars-locator")
+        compile("org.webjars:sockjs-client:1.0.2")
+        compile("org.webjars:bootstrap:3.3.7")
+        compile("org.webjars:jquery:3.1.0")
+        compile('com.amazonaws:aws-java-sdk:1.9.37')
+        compile("org.springframework.boot:spring-boot-starter-redis") {
+            exclude module: "org.springframework.data:spring-data-redis:1.7.3.RELEASE"
+        }
+        compile("org.springframework.data:spring-data-redis:$springDataRedisVersion") {
+            exclude module: "redis.clients:jedis:2.8.1"
+        }
+        compile("redis.clients:jedis:2.9.0")
+        testCompile("org.springframework.boot:spring-boot-starter-test")
+        compile("mysql:mysql-connector-java:$mysqlDatabase")
+    }
+}
+
+
