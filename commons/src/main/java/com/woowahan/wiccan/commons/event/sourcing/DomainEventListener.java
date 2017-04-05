@@ -1,4 +1,4 @@
-package com.woowahan.wiccan.core.event.sourcing;
+package com.woowahan.wiccan.commons.event.sourcing;
 
 import java.util.EventListener;
 

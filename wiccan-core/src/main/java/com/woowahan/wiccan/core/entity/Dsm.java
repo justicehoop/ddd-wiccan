@@ -3,6 +3,8 @@ package com.woowahan.wiccan.core.entity;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DSM(영업 마케터)
@@ -15,8 +17,8 @@ public class Dsm {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToOne
-    private DsmGroup dsmGroup;
+    @OneToMany
+    private List<ListingAd> listingAds = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private DsmType dsmType = DsmType.DIRECT;
 
@@ -37,12 +39,15 @@ public class Dsm {
 
     Dsm() {}
 
-    public static Dsm createOf(DsmGroup dsmGroup, String name, DsmType dsmType) {
+    public Dsm addListAd(ListingAd listingAd) {
+        listingAds.add(listingAd);
+        return this;
+    }
+
+    public static Dsm createOf(String name, DsmType dsmType) {
         Dsm instance = new Dsm();
-        instance.dsmGroup = dsmGroup;
         instance.name = name;
         instance.dsmType = dsmType;
         return instance;
     }
-
 }

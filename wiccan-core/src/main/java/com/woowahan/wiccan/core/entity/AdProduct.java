@@ -15,15 +15,26 @@ public class AdProduct extends BaseEntity {
     private Long id;
     private String name;
     private String description;
-    @ManyToOne
-    private AdPaymentModel adPaymentModel;
+    @Enumerated
+    private CostModel costModel = CostModel.CPT;
+
+    public enum CostModel {
+        CPT("기간제 상품");
+
+        private String desc;
+
+        CostModel(String desc) {
+            this.desc = desc;
+        }
+    }
 
     AdProduct() { }
 
-    public static AdProduct of(String name, String description) {
+    public static AdProduct of(String name, String description, CostModel costModel) {
         AdProduct instance = new AdProduct();
         instance.name = name;
         instance.description = description;
+        instance.costModel = costModel;
         return instance;
     }
 }

@@ -1,11 +1,11 @@
-package com.woowahan.wiccan.core.event.sourcing;
+package com.woowahan.wiccan.commons.event.sourcing;
 
 import java.util.EventObject;
 
 /**
  * Created by justicehoop on 2017. 4. 4..
  */
-public abstract class DomainEvent extends EventObject {
+public abstract class DomainEvent {
 
     /** use serialVersionUID from Spring 1.2 for interoperability */
     private static final long serialVersionUID = 7099057708183571937L;
@@ -15,11 +15,9 @@ public abstract class DomainEvent extends EventObject {
 
 
     /**
-     * Create a new ApplicationEvent.
-     * @param source the object on which the event initially occurred (never {@code null})
+     * Create a new DomainEvent.
      */
-    public DomainEvent(Object source) {
-        super(source);
+    public DomainEvent() {
         this.timestamp = System.currentTimeMillis();
     }
 

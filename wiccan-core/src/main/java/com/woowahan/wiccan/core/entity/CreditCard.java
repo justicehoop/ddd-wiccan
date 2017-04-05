@@ -5,6 +5,7 @@ import lombok.Getter;
 import javax.persistence.Embeddable;
 
 /**
+ * 카드정보
  * Created by justicehoop on 2017. 4. 4..
  */
 @Embeddable
@@ -18,10 +19,28 @@ public class CreditCard {
     private String passwordPrefix;
     private String birthday;
     private String email;
+    private CardType cardType;
+
+    public enum CardType {
+        CORP("법인"),
+        PERSONAL("개인");
+
+        private String desc;
+
+        CardType(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+    }
 
     CreditCard() {}
 
-    public static CreditCard of(String ownerName,
+
+    public static CreditCard of(CardType cardType,
+                                String ownerName,
                                 String cardNumber,
                                 String mobileNumber,
                                 String expireMonth,

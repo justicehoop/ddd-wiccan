@@ -3,9 +3,7 @@ package com.woowahan.wiccan.core.entity;
 import com.woowahan.wiccan.commons.entity.BaseEntity;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -15,10 +13,12 @@ import java.util.Date;
 @Entity
 @Getter
 public class AdAccountDsmContract extends BaseEntity {
-    @Id
-    private Long adAccountId;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @OneToOne
     private AdAccount adAccount;
+    @ManyToOne
     private Dsm dsm;
     private Date startDate;
     private Date endDate;

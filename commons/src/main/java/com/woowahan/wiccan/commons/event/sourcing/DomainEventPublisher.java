@@ -1,4 +1,4 @@
-package com.woowahan.wiccan.core.event.sourcing;
+package com.woowahan.wiccan.commons.event.sourcing;
 
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.ResolvableType;
@@ -9,28 +9,24 @@ import java.util.List;
 /**
  * Created by justicehoop on 2017. 4. 4..
  */
-public class SimpleDomainEventPublisher implements DomainEventPublisher {
+public class DomainEventPublisher {
 
     private static final ThreadLocal<DomainEventPublisher> instance = new ThreadLocal<DomainEventPublisher>() {
         protected DomainEventPublisher initialValue() {
-            return new SimpleDomainEventPublisher();
+            return new DomainEventPublisher();
         }
     };
 
     private List<DomainEventListener<? extends DomainEvent>> listeners = new ArrayList<>();
 
-
-    @Override
-    public void addApplicationListener(DomainEventListener<? extends DomainEvent> listener) {
+    public void addEventListener(DomainEventListener<? extends DomainEvent> listener) {
         this.listeners.add(listener);
     }
 
-    @Override
     public void removeApplicationListener(DomainEventListener<? extends DomainEvent> listener) {
         this.listeners.remove(listener);
     }
 
-    @Override
     public void removeAllListeners() {
         this.listeners.clear();
     }
@@ -60,11 +56,10 @@ public class SimpleDomainEventPublisher implements DomainEventPublisher {
             LogFactory.getLog(getClass()).debug("Non-matching event type for listener: " + listener, ex);
         }
     }
-    public DomainEventPublisher instance() {
+    public static DomainEventPublisher instance() {
         return instance.get();
     }
 
-    @Override
     public void publishEvent(DomainEvent event) {
         multicastEvent(event);
     }

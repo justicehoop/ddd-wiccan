@@ -4,8 +4,6 @@ import com.woowahan.wiccan.commons.entity.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 광고주
@@ -17,8 +15,12 @@ public class AdAccount extends BaseEntity {
     @Id
     private Long accountId;
     private String name;
+    private String bizNo;
+    private String telNo;
     @Enumerated(EnumType.STRING)
     private AccountStatus accountStatus = AccountStatus.REQ_REGIST;
+    @OneToOne(fetch = FetchType.LAZY)
+    private PaymentMethod paymentMethod;
 
     public enum AccountStatus {
         REQ_REGIST("승인요청"),
@@ -50,10 +52,12 @@ public class AdAccount extends BaseEntity {
         return changeAccountStatus(AccountStatus.LOCK);
     }
 
-    public static AdAccount createOf(Long accountId, String name) {
+    public static AdAccount createOf(Long accountId, String name, String bizNo, String telNo) {
         AdAccount instance = new AdAccount();
         instance.accountId = accountId;
         instance.name = name;
+        instance.bizNo = bizNo;
+        instance.telNo = telNo;
         return instance;
     }
 }

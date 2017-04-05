@@ -1,6 +1,9 @@
 package com.woowahan.wiccan.core.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
+import com.woowahan.wiccan.commons.event.sourcing.DomainEventPublisher;
+import com.woowahan.wiccan.core.event.AdRejectedConfirmEvent;
+import com.woowahan.wiccan.core.event.AdStatusChangedEvent;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -15,59 +18,98 @@ import java.util.Date;
 public class ListingAd extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private AdProduct adProduct;
     @ManyToOne(fetch = FetchType.LAZY)
     private AdAccount account;
     @ManyToOne
-    private Shop shop;
+    private AdShop adShop;
     @OneToMany(fetch = FetchType.LAZY)
-    private ListingAdStatus listingAdStatus;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Dsm dsm;
+    private ListingAdStatus status;
     @OneToOne(fetch = FetchType.LAZY)
-    private Payment payment;
+    private PaymentTransaction paymentTransaction;
+    @Enumerated(EnumType.STRING)
+    private RequestType requestType = RequestType.NORMAL;
+
+
+    public enum RequestType {
+        NORMAL("일반"),
+        RAPIDLY("빠른");
+
+        private String desc;
+
+        RequestType(String desc) {
+            this.desc = desc;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+    }
 
 
     ListingAd() {}
 
+    private void publishAdStatusChangedEvent() {
+        DomainEventPublisher.instance().publishEvent(new AdStatusChangedEvent(status));
+    }
 
-    ListingAd confirmed() {
-        listingAdStatus.confirmed();
+    public ListingAd confirmed() {
+        status.confirmed();
+        publishAdStatusChangedEvent();
         return this;
     }
 
-    ListingAd reject() {
-        listingAdStatus.reject();
+    public ListingAd reject(String rejectReason) {
+        status.reject(rejectReason);
+        publishAdStatusChangedEvent();
+        DomainEventPublisher.instance().publishEvent(new AdRejectedConfirmEvent(status));
         return this;
     }
 
-    ListingAd changeToIng() {
-        listingAdStatus.changeToIng();
+    public ListingAd ing() {
+        status.ing();
+        publishAdStatusChangedEvent();
         return this;
     }
 
-    ListingAd stop() {
-        listingAdStatus.stop();
+    public ListingAd stop() {
+        status.stop();
+        publishAdStatusChangedEvent();
         return this;
     }
 
-    ListingAd cancel() {
-        listingAdStatus.cancel();
+    public ListingAd cancel() {
+        status.cancel();
+        publishAdStatusChangedEvent();
         return this;
     }
 
+    public ListingAd finish() {
+        status.finish();
+        publishAdStatusChangedEvent();
+        return this;
+    }
 
-    public static ListingAd createOf(Shop shop,
+//    public Integer refund(Integer price) {
+//        if (!status.isRefundable()) {
+//            throw new IllegalStateException("refund only....");
+//        }
+//    }
+
+
+    public static ListingAd createOf(AdProduct adProduct,
+                                     AdShop adShop,
                                      AdAccount account,
-                                     Dsm dsm,
                                      Date startDate,
                                      Date endDate,
-                                     Payment payment) {
+                                     PaymentTransaction paymentTransaction) {
         ListingAd instance = new ListingAd();
+        instance.adProduct = adProduct;
         instance.account = account;
-        instance.shop = shop;
-        instance.dsm = dsm;
-        instance.listingAdStatus = ListingAdStatus.createOf(instance, startDate, endDate);
-        instance.payment = payment;
+        instance.adShop = adShop;
+        instance.status = ListingAdStatus.createOf(instance, startDate, endDate);
+        instance.paymentTransaction = paymentTransaction;
         return instance;
     }
 
