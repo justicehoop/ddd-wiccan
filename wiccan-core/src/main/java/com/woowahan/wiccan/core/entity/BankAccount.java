@@ -5,6 +5,7 @@ import lombok.Getter;
 import javax.persistence.Embeddable;
 
 /**
+ * 계좌정보(Value Object)
  * Created by justicehoop on 2017. 4. 4..
  */
 @Embeddable

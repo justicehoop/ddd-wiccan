@@ -5,7 +5,7 @@ import lombok.Getter;
 import javax.persistence.*;
 
 /**
- *
+ * 거래정보
  * Created by justicehoop on 2017. 4. 3..
  */
 @Entity
@@ -17,8 +17,8 @@ public class PaymentTransaction {
     private ListingAd ad;
     @ManyToOne
     private PaymentMethod paymentMethod;
-    private Long paidPrice;
-    private Long refundPrice = 0L;
+    private Integer paidPrice;
+    private Integer refundPrice = 0;
     private DayOfPayment dayOfPayment = DayOfPayment.DAY_5;
 
     public enum DayOfPayment {
@@ -36,12 +36,12 @@ public class PaymentTransaction {
 
     PaymentTransaction() {}
 
-    public PaymentTransaction refund(Long refundPrice) {
+    public PaymentTransaction refund(Integer refundPrice) {
         this.refundPrice = refundPrice;
         return this;
     }
 
-    public static PaymentTransaction of(ListingAd ad,PaymentMethod paymentMethod, Long paidPrice) {
+    public static PaymentTransaction of(ListingAd ad,PaymentMethod paymentMethod, Integer paidPrice) {
         PaymentTransaction instance = new PaymentTransaction();
         instance.adId = ad.getId();
         instance.ad = ad;

@@ -2,6 +2,7 @@ package com.woowahan.wiccan.core.service.impl;
 
 import com.woowahan.wiccan.core.dto.AdCancelCommand;
 import com.woowahan.wiccan.core.dto.AdConfirmRejectCommand;
+import com.woowahan.wiccan.core.dto.AdRefundCommand;
 import com.woowahan.wiccan.core.dto.ListingAdDto;
 import com.woowahan.wiccan.core.entity.ListingAd;
 import com.woowahan.wiccan.core.ex.ResourceNotFoundException;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
+ * 광고상태 관리 기능 제공
  * Created by justicehoop on 2017. 4. 5..
  */
 @Service
@@ -31,6 +33,12 @@ public class AdStatusServiceImpl implements AdStatusService {
     public ListingAdDto reject(Long adId, AdConfirmRejectCommand command) {
         ListingAd ad = findValidAd(adId);
         return ListingAdDto.of(ad.reject(command.getRejectReason()));
+    }
+
+    @Override
+    public ListingAdDto refund(Long adId, AdRefundCommand command) {
+        ListingAd ad = findValidAd(adId);
+        return ListingAdDto.of(ad.refund());
     }
 
     @Override

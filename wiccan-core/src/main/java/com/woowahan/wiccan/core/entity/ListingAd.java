@@ -2,6 +2,8 @@ package com.woowahan.wiccan.core.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
 import com.woowahan.wiccan.commons.event.sourcing.DomainEventPublisher;
+import com.woowahan.wiccan.core.entity.strategy.RefundStrategy;
+import com.woowahan.wiccan.core.entity.strategy.RefundStrategyFactory;
 import com.woowahan.wiccan.core.event.AdRejectedConfirmEvent;
 import com.woowahan.wiccan.core.event.AdStatusChangedEvent;
 import lombok.Getter;
@@ -24,7 +26,7 @@ public class ListingAd extends BaseEntity {
     private AdAccount account;
     @ManyToOne
     private AdShop adShop;
-    @OneToMany(fetch = FetchType.LAZY)
+    @Embedded
     private ListingAdStatus status;
     @OneToOne(fetch = FetchType.LAZY)
     private PaymentTransaction paymentTransaction;
@@ -91,11 +93,16 @@ public class ListingAd extends BaseEntity {
         return this;
     }
 
-//    public Integer refund(Integer price) {
-//        if (!status.isRefundable()) {
-//            throw new IllegalStateException("refund only....");
-//        }
-//    }
+    public ListingAd refund() {
+        if (!status.isRefundable()) {
+            throw new IllegalStateException("refund only....");
+        }
+
+        RefundStrategy strategy = RefundStrategyFactory.create(adProduct);
+        Integer refundPrice = strategy.refund(this);
+        paymentTransaction.refund(refundPrice);
+        return this;
+    }
 
 
     public static ListingAd createOf(AdProduct adProduct,

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
+ * 업주 정보 (업주/업소 시스템)
  * Created by justicehoop on 2017. 4. 5..
  */
 @NoArgsConstructor

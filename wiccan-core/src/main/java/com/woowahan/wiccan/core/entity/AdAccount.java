@@ -6,7 +6,7 @@ import lombok.Getter;
 import javax.persistence.*;
 
 /**
- * 광고주
+ * 광고주 Entity
  * Created by justicehoop on 2017. 4. 3..
  */
 @Entity

@@ -6,9 +6,10 @@ import javax.persistence.*;
 import java.util.*;
 
 /**
+ * 광고 상태를 관리하는 Class -> ListingAd Object에서 사용됨 (Embedable)
  * Created by justicehoop on 2017. 4. 4..
  */
-@Entity
+@Embeddable
 @Getter
 public class ListingAdStatus {
     @Id
@@ -21,8 +22,6 @@ public class ListingAdStatus {
     private Status status = Status.REQ_ING;
     private String rejectReason;
 
-    private static final Date DEFAULT_END_DATE = new Calendar.Builder().setDate(9999,12,31).build().getTime();
-
     public enum Status {
         REQ_ING("신청중"),
         REQ_CONFIRM("승인요청"),
@@ -34,6 +33,7 @@ public class ListingAdStatus {
         CANCEL("취소");
 
         private static final List<Status> REFUNDABLE_STATUSES = Collections.unmodifiableList(Arrays.asList(REQ_CONFIRM, CONFIRMED, ING));
+//        private static final List<Status>
 
         private String desc;
 
@@ -82,11 +82,16 @@ public class ListingAdStatus {
     }
 
     ListingAdStatus stop() {
+        if (status != Status.ING ) {
+            throw new IllegalStateException("status must be ING!");
+        }
         changeStatus(Status.STOP);
         return this;
     }
 
     ListingAdStatus cancel() {
+//        if (status == Status.ING)
+
         changeStatus(Status.CANCEL);
         return this;
     }
@@ -105,10 +110,6 @@ public class ListingAdStatus {
         instance.endDate = endDate;
         instance.status = Status.REQ_ING;
         return instance;
-    }
-
-    public static ListingAdStatus createOf(ListingAd ad, Date startDate) {
-        return createOf(ad, startDate, DEFAULT_END_DATE);
     }
 
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import javax.persistence.Id;
 
 /**
+ * 광고용 카테고리
  * Created by justicehoop on 2017. 4. 3..
  */
 @Getter
