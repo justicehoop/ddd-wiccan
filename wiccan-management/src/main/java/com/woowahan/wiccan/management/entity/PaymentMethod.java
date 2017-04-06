@@ -39,6 +39,14 @@ public class PaymentMethod {
 
     PaymentMethod() { }
 
+    public boolean isAutoPay() {
+        return this.type == Type.AUTO_PAYMENT;
+    }
+
+    public boolean isCardPay() {
+        return this.type == Type.CARD;
+    }
+
     public static PaymentMethod createOf(AdAccount account, CreditCard card) {
         PaymentMethod instance = new PaymentMethod();
         instance.adAccount = account;

@@ -10,7 +10,7 @@ import com.woowahan.wiccan.management.repository.AdAccountRepository;
 import com.woowahan.wiccan.management.repository.AdProductRepository;
 import com.woowahan.wiccan.management.repository.AdShopRepository;
 import com.woowahan.wiccan.management.repository.ListingAdRepository;
-import com.woowahan.wiccan.management.repository.custom.AdAccountDsmContractRepository;
+import com.woowahan.wiccan.management.repository.AdAccountDsmContractRepository;
 import com.woowahan.wiccan.management.service.AdRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

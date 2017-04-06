@@ -1,4 +1,4 @@
-package com.woowahan.wiccan.management.repository.custom;
+package com.woowahan.wiccan.management.repository;
 
 import com.woowahan.wiccan.management.entity.AdAccount;
 import com.woowahan.wiccan.management.entity.AdAccountDsmContract;

@@ -93,14 +93,18 @@ public class ListingAd extends BaseEntity {
         return this;
     }
 
-    public ListingAd refund() {
+    public Integer calcRefundPrice() {
         if (!status.isRefundable()) {
-            throw new IllegalStateException("refund only....");
+            throw new IllegalStateException("calcRefundPrice only....");
         }
 
         RefundStrategy strategy = RefundStrategyFactory.create(adProduct);
-        Integer refundPrice = strategy.refund(this);
+        return strategy.refund(this);
+    }
+
+    public ListingAd refund(Integer refundPrice) {
         paymentTransaction.refund(refundPrice);
+        status.refund();
         return this;
     }
 

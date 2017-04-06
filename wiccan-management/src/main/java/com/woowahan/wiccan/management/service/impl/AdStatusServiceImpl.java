@@ -8,6 +8,7 @@ import com.woowahan.wiccan.management.entity.ListingAd;
 import com.woowahan.wiccan.management.ex.ResourceNotFoundException;
 import com.woowahan.wiccan.management.repository.ListingAdRepository;
 import com.woowahan.wiccan.management.service.AdStatusService;
+import com.woowahan.wiccan.management.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class AdStatusServiceImpl implements AdStatusService {
 
     @Autowired
     private ListingAdRepository listingAdRepository;
+    @Autowired
+    private RefundService refundService;
 
     @Override
     public ListingAdDto confirm(Long adId) {
@@ -38,7 +41,9 @@ public class AdStatusServiceImpl implements AdStatusService {
     @Override
     public ListingAdDto refund(Long adId, AdRefundCommand command) {
         ListingAd ad = findValidAd(adId);
-        return ListingAdDto.of(ad.refund());
+        Integer refundPrice = ad.calcRefundPrice();
+        refundService.refund(ad);
+        return ListingAdDto.of(ad.refund(refundPrice));
     }
 
     @Override

@@ -18,6 +18,7 @@ public class ListingAdStatus {
     private Status status = Status.REQ_ING;
     private String rejectReason;
 
+
     public enum Status {
         REQ_ING("신청중"),
         REQ_CONFIRM("승인요청"),
@@ -26,6 +27,7 @@ public class ListingAdStatus {
         ING("집행중"),
         STOP("집행중지"),
         FINISH("집행완료"),
+        REFUND_FINISH("환불완료"),
         CANCEL("취소");
 
         private static final List<Status> REFUNDABLE_STATUSES = Collections.unmodifiableList(Arrays.asList(REQ_CONFIRM, CONFIRMED, ING, STOP));
@@ -69,6 +71,11 @@ public class ListingAdStatus {
     ListingAdStatus reject(String rejectReason) {
         changeStatus(Status.REJECT);
         this.rejectReason = rejectReason;
+        return this;
+    }
+
+    ListingAdStatus refund() {
+        changeStatus(Status.REFUND_FINISH);
         return this;
     }
 
