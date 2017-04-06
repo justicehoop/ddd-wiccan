@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * Created by justicehoop on 2017. 4. 5..
  */
-public class DateUtils {
+public abstract class DateUtils {
     public static LocalDateTime asLocalDateTime(Date selectedDate) {
         Instant instant = selectedDate.toInstant();
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());

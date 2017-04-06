@@ -6,6 +6,6 @@ include 'commons'
 
 include 'service-exception-handler'
 
-include 'wiccan-core'
+include 'wiccan-management'
 include 'wiccan-server'
-include 'wiccan-entity'
+include 'wiccan-impression'
