@@ -20,7 +20,8 @@ public class AdProduct extends BaseEntity {
     private CostModel costModel = CostModel.CPT;
 
     public enum CostModel {
-        CPT("기간제 상품");
+        CPT("기간제 상품"),
+        CPC("클릭당 과금");
 
         private String desc;
 

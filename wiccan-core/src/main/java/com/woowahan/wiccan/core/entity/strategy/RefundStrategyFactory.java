@@ -14,9 +14,10 @@ public abstract class RefundStrategyFactory {
         switch(costModel) {
             case CPT:
                 return new CptCostModelRefundStrategy();
+            case CPC:
+                return new NoRefundStrategy();
             default:
                 throw new IllegalArgumentException(String.format("strategy for %s product that does not support", product.getCostModel()));
         }
-
     }
 }

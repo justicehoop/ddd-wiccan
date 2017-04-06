@@ -27,7 +27,7 @@ public class CptCostModelRefundStrategy implements RefundStrategy {
         Integer paidPrice = paymentTransaction.getPaidPrice();
 
         ListingAdStatus status = ad.getStatus();
-        Integer totalContractDays = getBetweenAsDay(status.getStartDate(), status.getEndDate());
+        Integer totalContractDays = getPeriodAsDay(status.getStartDate(), status.getEndDate());
 
         return (int) paidPrice / totalContractDays;
     }
@@ -35,10 +35,10 @@ public class CptCostModelRefundStrategy implements RefundStrategy {
     private Integer calculateRemainDays(ListingAd ad) {
         ListingAdStatus status = ad.getStatus();
         Date today = new Date();
-        return getBetweenAsDay(today, status.getEndDate());
+        return getPeriodAsDay(today, status.getEndDate());
     }
 
-    private Integer getBetweenAsDay(Date from, Date to) {
+    private Integer getPeriodAsDay(Date from, Date to) {
         LocalDateTime fromDate = DateUtils.asLocalDateTime(from);
         LocalDateTime endDate = DateUtils.asLocalDateTime(to);
         Period period = Period.between(fromDate.toLocalDate(), endDate.toLocalDate());

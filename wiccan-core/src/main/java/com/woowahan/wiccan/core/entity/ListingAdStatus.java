@@ -32,8 +32,8 @@ public class ListingAdStatus {
         FINISH("집행완료"),
         CANCEL("취소");
 
-        private static final List<Status> REFUNDABLE_STATUSES = Collections.unmodifiableList(Arrays.asList(REQ_CONFIRM, CONFIRMED, ING));
-//        private static final List<Status>
+        private static final List<Status> REFUNDABLE_STATUSES = Collections.unmodifiableList(Arrays.asList(REQ_CONFIRM, CONFIRMED, ING, STOP));
+        private static final List<Status> CANCELABLE_STATUSES = Collections.unmodifiableList(Arrays.asList(REQ_ING, REQ_CONFIRM, REJECT, CONFIRMED));
 
         private String desc;
 
@@ -76,27 +76,47 @@ public class ListingAdStatus {
         return this;
     }
 
+    private boolean isConfirmed() {
+        return status == Status.CONFIRMED;
+    }
+
     ListingAdStatus ing() {
+        if (!isConfirmed()) {
+            throw new IllegalStateException("status must be 'CONFIRMED'");
+        }
+
         changeStatus(Status.ING);
         return this;
     }
 
     ListingAdStatus stop() {
-        if (status != Status.ING ) {
-            throw new IllegalStateException("status must be ING!");
+        if (isIng()) {
+            throw new IllegalStateException("status must be 'ING'");
         }
         changeStatus(Status.STOP);
         return this;
     }
 
-    ListingAdStatus cancel() {
-//        if (status == Status.ING)
+    private boolean isCancelable() {
+        return Status.CANCELABLE_STATUSES.contains(status);
+    }
 
+    ListingAdStatus cancel() {
+        if (!isCancelable()) {
+            throw new IllegalStateException(String.format("%s status does not change to cancel"));
+        }
         changeStatus(Status.CANCEL);
         return this;
     }
 
+    private boolean isIng() {
+        return status == Status.ING;
+    }
+
     ListingAdStatus finish() {
+        if (!isIng()) {
+            throw new IllegalStateException("status must be 'ING'");
+        }
         endDate = new Date();
         changeStatus(Status.FINISH);
         return this;
@@ -106,6 +126,7 @@ public class ListingAdStatus {
     public static ListingAdStatus createOf(ListingAd ad, Date startDate, Date endDate) {
         ListingAdStatus instance = new ListingAdStatus();
         instance.ad = ad;
+        instance.adId = ad.getId();
         instance.startDate = startDate;
         instance.endDate = endDate;
         instance.status = Status.REQ_ING;
