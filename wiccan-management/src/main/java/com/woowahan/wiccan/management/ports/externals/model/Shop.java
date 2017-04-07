@@ -16,17 +16,20 @@ public class Shop {
     private String name;
     private String tel;
     private String ownerName;
+    private String shopImage;
 
 
     public static Shop of(String shopId,
                           String name,
                           String tel,
-                          String ownerName) {
+                          String ownerName,
+                          String shopImage) {
         Shop shop = new Shop();
         shop.shopId = shopId;
         shop.name = name;
         shop.tel = tel;
         shop.ownerName = ownerName;
+        shop.shopImage = shopImage;
         return shop;
     }
 

@@ -17,7 +17,7 @@ public abstract class RefundStrategyFactory {
             case CPC:
                 return new NoRefundStrategy();
             default:
-                throw new IllegalArgumentException(String.format("strategy for %s product that does not support", product.getCostModel()));
+                throw new IllegalArgumentException(String.format("refund strategy for %s product that does not support", product.getCostModel()));
         }
     }
 }

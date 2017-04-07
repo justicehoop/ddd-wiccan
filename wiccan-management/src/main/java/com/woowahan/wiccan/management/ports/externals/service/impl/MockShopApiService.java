@@ -13,6 +13,6 @@ public class MockShopApiService implements ShopApiService {
 
     @Override
     public Shop findById(String shopId) {
-        return Shop.of(shopId, "test" + shopId, "000-000-000", "owner" + shopId);
+        return Shop.of(shopId, "test" + shopId, "000-000-000", "owner" + shopId, "http://woowahan1.vipweb.kr/cache/fw/thumb_fr/circle/2013022102/fr_thumb_332.jpg");
     }
 }

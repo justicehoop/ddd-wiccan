@@ -1,5 +1,6 @@
 package com.woowahan.wiccan.management.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.List;
  * DSM(영업 마케터)
  * Created by justicehoop on 2017. 4. 3..
  */
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Getter
 public class Dsm {

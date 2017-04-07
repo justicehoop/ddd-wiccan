@@ -1,5 +1,6 @@
 package com.woowahan.wiccan.management.service.impl;
 
+import com.woowahan.wiccan.commons.type.AdStatus;
 import com.woowahan.wiccan.commons.utils.DateUtils;
 import com.woowahan.wiccan.commons.utils.ValueCreator;
 import com.woowahan.wiccan.management.dto.AdCancelCommand;
@@ -22,7 +23,7 @@ import static org.hamcrest.Matchers.is;
  * Created by justicehoop on 2017. 4. 6..
  */
 @Transactional
-public class AdStatusServiceImplTest extends ManagementTestBase {
+public class AdAdStatusServiceImplTest extends ManagementTestBase {
     @Autowired
     private MockEntityCreateHelper mockEntityCreateHelper;
     @Autowired
@@ -52,7 +53,7 @@ public class AdStatusServiceImplTest extends ManagementTestBase {
         //Then
         Assert.assertNotNull(canceledAd);
         ListingAdStatusDto status = canceledAd.getStatus();
-        Assert.assertThat("광고 상태가 'CANCEL'여야 한다", status.getStatus(), is(ListingAdStatus.Status.CANCEL));
+        Assert.assertThat("광고 상태가 'CANCEL'여야 한다", status.getAdStatus(), is(AdStatus.CANCEL));
 
     }
 

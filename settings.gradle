@@ -7,5 +7,5 @@ include 'commons'
 include 'service-exception-handler'
 
 include 'wiccan-management'
-include 'wiccan-server'
+include 'wiccan-management-api'
 include 'wiccan-impression'

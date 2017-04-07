@@ -245,6 +245,7 @@ project('wiccan-management') {
     dependencies {
         compile project(':commons')
         compile("org.modelmapper:modelmapper:$modelMapperVersion")
+        compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
         compile('org.springframework.boot:spring-boot-starter-validation')
         compile "org.hibernate:hibernate-validator:${hivernateValidatorVersion}"
@@ -255,8 +256,8 @@ project('wiccan-management') {
 }
 
 
-project('wiccan-server') {
-    description = "wiccan Server"
+project('wiccan-management-api') {
+    description = "wiccan management api server"
     bootRepackage.enabled = false
     apply plugin: 'war'
 
@@ -290,10 +291,11 @@ project('wiccan-impression') {
 
 
     dependencies {
-        compile project(':wiccan-management')
+        compile project(':commons')
         compile("org.projectlombok:lombok:$lombokVersion")
-
+        compile("org.springframework.boot:spring-boot-starter-web")
         testCompile("org.springframework.boot:spring-boot-starter-test")
+
     }
 }
 

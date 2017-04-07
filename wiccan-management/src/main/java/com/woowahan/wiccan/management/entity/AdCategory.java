@@ -1,6 +1,7 @@
 package com.woowahan.wiccan.management.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Id;
  * 광고용 카테고리
  * Created by justicehoop on 2017. 4. 3..
  */
+@EqualsAndHashCode(of = "categoryId")
 @Entity
 @Getter
 public class AdCategory extends BaseEntity {

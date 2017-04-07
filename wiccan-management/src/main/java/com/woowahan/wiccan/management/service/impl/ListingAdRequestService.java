@@ -68,7 +68,8 @@ public class ListingAdRequestService implements AdRequestService<ListingAdReques
                                 .orElseGet(() -> {
                                     Shop shop = findValidShop(shopId);
                                     return adShopRepository.save(AdShop.createOf(shop.getShopId(),
-                                                                                 shop.getName()));
+                                                                                 shop.getName(),
+                                                                                 shop.getShopImage()));
                                 });
 
     }

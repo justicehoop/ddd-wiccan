@@ -1,6 +1,7 @@
 package com.woowahan.wiccan.management.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.util.Date;
  * 광고 <-> Dsm계약
  * Created by justicehoop on 2017. 4. 3..
  */
+@EqualsAndHashCode(of = "id")
 @Entity
 @Getter
 public class AdAccountDsmContract extends BaseEntity {

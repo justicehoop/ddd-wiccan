@@ -1,6 +1,7 @@
 package com.woowahan.wiccan.management.event;
 
 import com.woowahan.wiccan.commons.event.sourcing.DomainEvent;
+import com.woowahan.wiccan.commons.type.AdStatus;
 import com.woowahan.wiccan.management.entity.ListingAd;
 import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import lombok.Getter;
 @Getter
 public class AdStatusChangedEvent extends DomainEvent {
     private Long adId;
-    private ListingAdStatus.Status status;
+    private AdStatus adStatus;
     /**
      * Create a new ApplicationEvent.
      */
@@ -20,6 +21,6 @@ public class AdStatusChangedEvent extends DomainEvent {
         super(ad.getId());
         ListingAdStatus status = ad.getStatus();
         this.adId = ad.getId();
-        this.status = status.getStatus();
+        this.adStatus = status.getAdStatus();
     }
 }

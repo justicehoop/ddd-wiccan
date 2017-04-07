@@ -2,10 +2,12 @@ package com.woowahan.wiccan.management.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
 import com.woowahan.wiccan.commons.event.sourcing.DomainEventPublisher;
+import com.woowahan.wiccan.commons.type.AdStatus;
 import com.woowahan.wiccan.management.entity.strategy.RefundStrategy;
 import com.woowahan.wiccan.management.entity.strategy.RefundStrategyFactory;
 import com.woowahan.wiccan.management.event.AdRejectedConfirmEvent;
 import com.woowahan.wiccan.management.event.AdStatusChangedEvent;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -15,6 +17,7 @@ import java.util.Date;
  * 리스팅형 광고
  * Created by justicehoop on 2017. 4. 3..
  */
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Getter
 public class ListingAd extends BaseEntity {

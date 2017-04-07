@@ -49,6 +49,7 @@ public class CreditCard {
                                 String birthday,
                                 String email) {
         CreditCard card = new CreditCard();
+        card.cardType = cardType;
         card.cardOwnerName = ownerName;
         card.cardNumber = cardNumber;
         card.mobileNumber = mobileNumber;

@@ -1,6 +1,7 @@
 package com.woowahan.wiccan.management.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.annotation.Generated;
@@ -10,6 +11,7 @@ import javax.persistence.*;
  * 광고주 Entity
  * Created by justicehoop on 2017. 4. 3..
  */
+@EqualsAndHashCode(of = "accountId", callSuper = false)
 @Entity
 @Getter
 public class AdAccount extends BaseEntity {

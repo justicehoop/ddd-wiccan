@@ -39,7 +39,7 @@ public class MockEntityCreateHelper {
     }
 
     public AdShop mockShop(String name) {
-        return adShopRepository.save(AdShop.createOf(ValueCreator.randomCode(4), name));
+        return adShopRepository.save(AdShop.createOf(ValueCreator.randomCode(4), name, "http://woowahan1.vipweb.kr/cache/fw/thumb_fr/circle/2013022102/fr_thumb_332.jpg"));
     }
 
     public AdShop mockShop() {

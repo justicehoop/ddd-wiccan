@@ -1,5 +1,6 @@
 package com.woowahan.wiccan.management.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
  * 결제정보
  * Created by justicehoop on 2017. 4. 5..
  */
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Getter
 public class PaymentMethod {
