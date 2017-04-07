@@ -21,6 +21,7 @@ public class ListingAdStatusDto {
         ListingAdStatusDto instance = new ListingAdStatusDto();
         instance.startDate = status.getStartDate();
         instance.endDate = status.getEndDate();
+        instance.status = status.getStatus();
         return instance;
     }
 }

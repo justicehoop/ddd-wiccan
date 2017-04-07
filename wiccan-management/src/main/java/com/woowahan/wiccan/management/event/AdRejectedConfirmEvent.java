@@ -6,6 +6,7 @@ import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import lombok.Getter;
 
 /**
+ * 광고 승인 거절 이벤트
  * Created by justicehoop on 2017. 4. 5..
  */
 @Getter

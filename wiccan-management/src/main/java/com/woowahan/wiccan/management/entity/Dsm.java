@@ -24,7 +24,7 @@ public class Dsm {
 
     public enum DsmType {
         DIRECT("직영"),
-        AGENCY("대리점");
+        AGENT("대리점");
 
         private final String desc;
 

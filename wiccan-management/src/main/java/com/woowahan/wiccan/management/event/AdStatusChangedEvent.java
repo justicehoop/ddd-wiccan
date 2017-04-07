@@ -6,6 +6,7 @@ import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import lombok.Getter;
 
 /**
+ * 광고 상태 변경 Event
  * Created by justicehoop on 2017. 4. 5..
  */
 @Getter

@@ -27,6 +27,7 @@ public class AdRejectedConfirmEventListener implements DomainEventListener<AdRej
     public void onDomainEvent(AdRejectedConfirmEvent event) {
         ListingAd ad = listingAdRepository.findOne(event.getAdId());
         AdAccount account = ad.getAccount();
+
         notificationService.send("000-000-0000", account.getTelNo(), "광고 승인이 거부 되었습니다");
     }
 

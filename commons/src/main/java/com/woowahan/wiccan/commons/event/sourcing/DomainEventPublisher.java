@@ -45,6 +45,7 @@ public class DomainEventPublisher {
     }
 
     private void multicastEvent(final DomainEvent event, ResolvableType eventType) {
+
         ResolvableType type = (eventType != null ? eventType : resolveDefaultEventType(event));
 
         log.debug("resolvableType:{}" , type);
@@ -68,7 +69,8 @@ public class DomainEventPublisher {
             listener.onDomainEvent(event);
         }
         catch (ClassCastException ex) {
-            log.debug("Non-matching event type for listener: {}" ,listener, ex);
+            log.error("Non-matching event type for listener: {}" ,listener, ex);
+            throw new DomainEventMulticastFailedException("Non-matching event type for listener", ex);
         }
     }
     public static DomainEventPublisher instance() {

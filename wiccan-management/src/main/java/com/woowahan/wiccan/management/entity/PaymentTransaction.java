@@ -11,10 +11,12 @@ import javax.persistence.*;
 @Entity
 @Getter
 public class PaymentTransaction {
-
     @Id
+    private Long adId;
+    @JoinColumn(name = "ad_id_fk")
+    @OneToOne(fetch = FetchType.LAZY)
     private ListingAd ad;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PaymentMethod paymentMethod;
     private Integer paidPrice;
     private Integer refundPrice = 0;
@@ -42,9 +44,11 @@ public class PaymentTransaction {
 
     public static PaymentTransaction of(ListingAd ad,PaymentMethod paymentMethod, Integer paidPrice) {
         PaymentTransaction instance = new PaymentTransaction();
+        instance.adId = ad.getId();
         instance.ad = ad;
         instance.paymentMethod = paymentMethod;
         instance.paidPrice = paidPrice;
+        ad.amendPaymentTrasnaction(instance);
         return  instance;
     }
 

@@ -11,16 +11,18 @@ import com.woowahan.wiccan.management.service.AdStatusService;
 import com.woowahan.wiccan.management.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 /**
  * 광고상태 관리 기능 제공
+ * @TODO: 광고 변경 히스토리 추가
  * Created by justicehoop on 2017. 4. 5..
  */
+@Transactional
 @Service
 public class AdStatusServiceImpl implements AdStatusService {
-
     @Autowired
     private ListingAdRepository listingAdRepository;
     @Autowired
@@ -35,21 +37,30 @@ public class AdStatusServiceImpl implements AdStatusService {
     @Override
     public ListingAdDto reject(Long adId, AdConfirmRejectCommand command) {
         ListingAd ad = findValidAd(adId);
-        return ListingAdDto.of(ad.reject(command.getRejectReason()));
+        ad = listingAdRepository.save(ad.reject(command.getRejectReason()));
+        //상태변경 히스토리 남기기.
+        return ListingAdDto.of(ad);
     }
 
     @Override
     public ListingAdDto refund(Long adId, AdRefundCommand command) {
         ListingAd ad = findValidAd(adId);
+
         Integer refundPrice = ad.calcRefundPrice();
-        refundService.refund(ad);
-        return ListingAdDto.of(ad.refund(refundPrice));
+        ad = listingAdRepository.save(ad.refund(refundPrice));
+        refundService.refund(ad.getId(),ad.getAccount(), refundPrice);
+        //상태변경 히스토리 남기기.
+        return ListingAdDto.of(ad);
     }
 
     @Override
     public ListingAdDto cancel(Long adId, AdCancelCommand command) {
         ListingAd ad = findValidAd(adId);
-        return ListingAdDto.of(ad.cancel());
+
+        ad = listingAdRepository.save(ad.cancel());
+        refundService.refund(ad.getId(),ad.getAccount(), ad.getPaidPrice());
+        //상태변경 히스토리 남기기.
+        return ListingAdDto.of(ad);
     }
 
     private ListingAd findValidAd(Long adId) {

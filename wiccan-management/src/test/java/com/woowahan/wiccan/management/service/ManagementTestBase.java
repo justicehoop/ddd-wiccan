@@ -13,6 +13,5 @@ import org.springframework.transaction.annotation.Transactional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = {ManagementConfig.class})
 @Slf4j
-@Transactional
 public abstract class ManagementTestBase {
 }

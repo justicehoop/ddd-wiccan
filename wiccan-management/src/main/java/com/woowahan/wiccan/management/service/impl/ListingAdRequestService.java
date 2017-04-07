@@ -14,12 +14,14 @@ import com.woowahan.wiccan.management.repository.AdAccountDsmContractRepository;
 import com.woowahan.wiccan.management.service.AdRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 /**
  * Created by justicehoop on 2017. 4. 4..
  */
+@Transactional
 @Service
 public class ListingAdRequestService implements AdRequestService<ListingAdRequestCommand, ListingAdDto> {
 
@@ -44,7 +46,7 @@ public class ListingAdRequestService implements AdRequestService<ListingAdReques
         AdAccountDsmContract contract = findContract(adAccount);
         AdProduct product = findValidAdProduct(command.getAdProductId());
         Dsm dsm = contract.getDsm();
-        ListingAd ad = listingAdRepository.save(ListingAd.createOf(product, adShop, adAccount, command.getStartDate(), command.getEndDate(), null));
+        ListingAd ad = listingAdRepository.save(ListingAd.createOf(product, adShop, adAccount, command.getStartDate(), command.getEndDate()));
         dsm.addListAd(ad);
         return ListingAdDto.of(ad);
     }

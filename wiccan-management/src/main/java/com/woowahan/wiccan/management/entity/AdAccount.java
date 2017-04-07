@@ -3,6 +3,7 @@ package com.woowahan.wiccan.management.entity;
 import com.woowahan.wiccan.commons.entity.BaseEntity;
 import lombok.Getter;
 
+import javax.annotation.Generated;
 import javax.persistence.*;
 
 /**
@@ -12,7 +13,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 public class AdAccount extends BaseEntity {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long accountId;
     private String name;
     private String bizNo;
@@ -52,9 +53,8 @@ public class AdAccount extends BaseEntity {
         return changeAccountStatus(AccountStatus.LOCK);
     }
 
-    public static AdAccount createOf(Long accountId, String name, String bizNo, String telNo) {
+    public static AdAccount createOf(String name, String bizNo, String telNo) {
         AdAccount instance = new AdAccount();
-        instance.accountId = accountId;
         instance.name = name;
         instance.bizNo = bizNo;
         instance.telNo = telNo;

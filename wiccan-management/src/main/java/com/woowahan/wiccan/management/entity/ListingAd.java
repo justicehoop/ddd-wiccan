@@ -94,18 +94,27 @@ public class ListingAd extends BaseEntity {
     }
 
     public Integer calcRefundPrice() {
-        if (!status.isRefundable()) {
-            throw new IllegalStateException("calcRefundPrice only....");
-        }
-
         RefundStrategy strategy = RefundStrategyFactory.create(adProduct);
         return strategy.refund(this);
     }
 
+    ListingAd amendPaymentTrasnaction(PaymentTransaction transaction) {
+        this.paymentTransaction = transaction;
+        return this;
+    }
+
     public ListingAd refund(Integer refundPrice) {
+        if (!status.isRefundable()) {
+            throw new IllegalStateException("calcRefundPrice only....");
+        }
+
         paymentTransaction.refund(refundPrice);
         status.refund();
         return this;
+    }
+
+    public Integer getPaidPrice() {
+        return paymentTransaction.getPaidPrice();
     }
 
 
@@ -113,14 +122,12 @@ public class ListingAd extends BaseEntity {
                                      AdShop adShop,
                                      AdAccount account,
                                      Date startDate,
-                                     Date endDate,
-                                     PaymentTransaction paymentTransaction) {
+                                     Date endDate) {
         ListingAd instance = new ListingAd();
         instance.adProduct = adProduct;
         instance.account = account;
         instance.adShop = adShop;
         instance.status = ListingAdStatus.createOf(instance, startDate, endDate);
-        instance.paymentTransaction = paymentTransaction;
         return instance;
     }
 

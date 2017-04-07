@@ -14,7 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor(staticName = "of")
 public class AdCancelCommand {
     private Boolean instantStop;
-    private Integer afterDay;
     private String reason;
 
 }
