@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * 광고 상태
  * Created by justicehoop on 2017. 4. 7..
  */
-
 public enum AdStatus {
     REQ_ING("신청중"),
     REQ_CONFIRM("승인요청"),

@@ -50,7 +50,7 @@ public class PaymentTransaction {
         instance.ad = ad;
         instance.paymentMethod = paymentMethod;
         instance.paidPrice = paidPrice;
-        ad.amendPaymentTrasnaction(instance);
+        ad.amendPaymentTransaction(instance);
         return  instance;
     }
 

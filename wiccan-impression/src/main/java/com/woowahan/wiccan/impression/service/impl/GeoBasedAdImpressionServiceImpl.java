@@ -7,10 +7,10 @@ import com.woowahan.wiccan.impression.repository.AdRepository;
 import com.woowahan.wiccan.impression.service.GeoBasedAdImpressionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+        import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+        import java.util.List;
+        import java.util.stream.Collectors;
 
 /**
  * Created by justicehoop on 2017. 4. 7..
@@ -22,11 +22,11 @@ public class GeoBasedAdImpressionServiceImpl implements GeoBasedAdImpressionServ
     private AdRepository adRepository;
 
     @Override
-    public List<ListingAdDto> searchListingAd(AdProductType adProductType, GeoBasedListingAdSearchCommand command) {
+    public List<ListingAdDto> searchListingAds(AdProductType adProductType, GeoBasedListingAdSearchCommand command) {
         return adRepository.findAll(adProductType.getProductCode(), command)
-                    .stream()
-                    .map(ListingAdDto::of)
-                    .collect(Collectors.toList());
+                .stream()
+                .map(ListingAdDto::of)
+                .collect(Collectors.toList());
     }
 
 

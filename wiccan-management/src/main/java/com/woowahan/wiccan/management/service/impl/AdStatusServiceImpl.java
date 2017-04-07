@@ -31,13 +31,13 @@ public class AdStatusServiceImpl implements AdStatusService {
     @Override
     public ListingAdDto confirm(Long adId) {
         ListingAd ad = findValidAd(adId);
-        return ListingAdDto.of(listingAdRepository.save(ad.confirmed()));
+        return ListingAdDto.of(ad.confirmed());
     }
 
     @Override
     public ListingAdDto reject(Long adId, AdConfirmRejectCommand command) {
         ListingAd ad = findValidAd(adId);
-        ad = listingAdRepository.save(ad.reject(command.getRejectReason()));
+        ad.reject(command.getRejectReason());
         //상태변경 히스토리 남기기.
         return ListingAdDto.of(ad);
     }
@@ -47,7 +47,7 @@ public class AdStatusServiceImpl implements AdStatusService {
         ListingAd ad = findValidAd(adId);
 
         Integer refundPrice = ad.calcRefundPrice();
-        ad = listingAdRepository.save(ad.refund(refundPrice));
+        ad.refund(refundPrice);
         refundService.refund(ad.getId(),ad.getAccount(), refundPrice);
         //상태변경 히스토리 남기기.
         return ListingAdDto.of(ad);
@@ -57,7 +57,7 @@ public class AdStatusServiceImpl implements AdStatusService {
     public ListingAdDto cancel(Long adId, AdCancelCommand command) {
         ListingAd ad = findValidAd(adId);
 
-        ad = listingAdRepository.save(ad.cancel());
+        ad.cancel();
         refundService.refund(ad.getId(),ad.getAccount(), ad.getPaidPrice());
         //상태변경 히스토리 남기기.
         return ListingAdDto.of(ad);

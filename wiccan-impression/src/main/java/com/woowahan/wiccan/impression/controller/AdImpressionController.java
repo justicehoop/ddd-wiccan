@@ -22,8 +22,8 @@ public class AdImpressionController {
     private GeoBasedAdImpressionService geoBasedAdImpressionService;
 
     @GetMapping(value = "/ultracall")
-    public List<ListingAdDto> findUltraList(@ModelAttribute  GeoBasedListingAdSearchCommand command) {
-        return geoBasedAdImpressionService.searchListingAd(AdProductType.ULTRA_CALL, command);
+    public List<ListingAdDto> findUltraCallAds(@ModelAttribute  GeoBasedListingAdSearchCommand command) {
+        return geoBasedAdImpressionService.searchListingAds(AdProductType.ULTRA_CALL, command);
     }
 
 }

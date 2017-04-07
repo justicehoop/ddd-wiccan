@@ -101,7 +101,7 @@ public class ListingAd extends BaseEntity {
         return strategy.refund(this);
     }
 
-    ListingAd amendPaymentTrasnaction(PaymentTransaction transaction) {
+    ListingAd amendPaymentTransaction(PaymentTransaction transaction) {
         this.paymentTransaction = transaction;
         return this;
     }

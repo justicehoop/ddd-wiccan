@@ -1,6 +1,7 @@
 package com.woowahan.wiccan.management.service.impl;
 
 import com.woowahan.wiccan.management.service.ManagementTestBase;
+import com.woowahan.wiccan.management.service.MockEntityCreateHelper;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,8 @@ import static org.junit.Assert.*;
  */
 @Transactional
 public class ListingAdRequestServiceTest extends ManagementTestBase {
+    @Autowired
+    private MockEntityCreateHelper mockEntityCreateHelper;
     @Autowired
     private ListingAdRequestService listingAdRequestService;
 

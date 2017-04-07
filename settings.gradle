@@ -2,10 +2,7 @@ rootProject.name = 'wiccan'
 
 include 'commons'
 
-//include 'baeminz-event-subscriber'
-
 include 'service-exception-handler'
-
 include 'wiccan-management'
 include 'wiccan-management-api'
 include 'wiccan-impression'

@@ -1,5 +1,6 @@
 package com.woowahan.wiccan.impression.dto;
 
+import com.woowahan.wiccan.impression.entity.ShopCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(staticName = "of")
 @Data
 public class GeoBasedListingAdSearchCommand {
+    private ShopCategory shopCategory;
     private Location location;
 }
