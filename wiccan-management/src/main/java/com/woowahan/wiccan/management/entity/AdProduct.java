@@ -11,7 +11,7 @@ import java.util.UUID;
  * 광고 상품 Entity
  * Created by justicehoop on 2017. 4. 3..
  */
-@EqualsAndHashCode(of = "id", callSuper = false)
+@EqualsAndHashCode(of = "code", callSuper = false)
 @Getter
 @Entity
 public class AdProduct extends BaseEntity {

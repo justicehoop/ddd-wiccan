@@ -11,7 +11,7 @@ import javax.persistence.Id;
  * 광고용 카테고리
  * Created by justicehoop on 2017. 4. 3..
  */
-@EqualsAndHashCode(of = "categoryId")
+@EqualsAndHashCode(of = "categoryId", callSuper = false)
 @Entity
 @Getter
 public class AdCategory extends BaseEntity {

@@ -21,7 +21,7 @@ public class Address {
     private String fullTextJibun;
     private String fullTextRoad;
 
-    protected Address() {}
+    Address() {}
 
     public static Address of(String dongAdminCode, Double lat, Double lng, String detail) {
         Address instance = new Address();
