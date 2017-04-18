@@ -1,6 +1,6 @@
 package com.woowahan.wiccan.management.ports.externals.service;
 
-import com.woowahan.wiccan.management.ports.externals.model.AdExportModel;
+import com.woowahan.wiccan.management.ports.externals.model.ListingAdSyncCommand;
 import com.woowahan.wiccan.management.ports.externals.service.dto.AdStatusNotifyCommand;
 
 /**
@@ -9,7 +9,7 @@ import com.woowahan.wiccan.management.ports.externals.service.dto.AdStatusNotify
  */
 public interface AdChangedNotifyService {
 
-    void notifyAdCreated(AdExportModel ad);
+    void notifyAdCreated(ListingAdSyncCommand ad);
 
     void notifyAdStatusChanged(AdStatusNotifyCommand sync);
 }

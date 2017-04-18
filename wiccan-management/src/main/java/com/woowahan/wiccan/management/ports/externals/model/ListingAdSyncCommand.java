@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-public class AdExportModel {
+public class ListingAdSyncCommand {
     private Long adId;
     private AdStatus adStatus;
     private String shopName;

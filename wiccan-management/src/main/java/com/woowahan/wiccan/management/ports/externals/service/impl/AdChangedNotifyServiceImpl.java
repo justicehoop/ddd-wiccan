@@ -2,7 +2,7 @@ package com.woowahan.wiccan.management.ports.externals.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.woowahan.wiccan.management.ports.externals.model.AdExportModel;
+import com.woowahan.wiccan.management.ports.externals.model.ListingAdSyncCommand;
 import com.woowahan.wiccan.management.ports.externals.service.AdChangedNotifyService;
 import com.woowahan.wiccan.management.ports.externals.service.dto.AdStatusNotifyCommand;
 import com.woowahan.wiccan.messaging.AmqpOperations;
@@ -28,7 +28,7 @@ public class AdChangedNotifyServiceImpl implements AdChangedNotifyService {
     }
 
     @Override
-    public void notifyAdCreated(AdExportModel ad) {
+    public void notifyAdCreated(ListingAdSyncCommand ad) {
         log.info("[notifyAdCreated] export ad's information to impression service");
         amqpOperations.convertAndSend(ad);
     }
