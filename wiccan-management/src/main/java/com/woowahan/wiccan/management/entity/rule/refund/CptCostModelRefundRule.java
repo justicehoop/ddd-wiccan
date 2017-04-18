@@ -26,16 +26,14 @@ public class CptCostModelRefundRule implements RefundRule {
         PaymentTransaction paymentTransaction = ad.getPaymentTransaction();
         Integer paidPrice = paymentTransaction.getPaidPrice();
 
-        ListingAdStatus status = ad.getStatus();
-        Integer totalContractDays = getPeriodAsDay(status.getStartDate(), status.getEndDate());
+        Integer totalContractDays = getPeriodAsDay(ad.getStartDate(), ad.getEndDate());
 
         return (int) paidPrice / totalContractDays;
     }
 
     private Integer calculateRemainDays(ListingAd ad) {
-        ListingAdStatus status = ad.getStatus();
         Date today = new Date();
-        return getPeriodAsDay(today, status.getEndDate());
+        return getPeriodAsDay(today, ad.getEndDate());
     }
 
     private Integer getPeriodAsDay(Date from, Date to) {

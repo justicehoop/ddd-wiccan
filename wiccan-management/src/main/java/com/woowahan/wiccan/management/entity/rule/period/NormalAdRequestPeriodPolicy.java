@@ -7,9 +7,10 @@ import java.time.LocalDate;
 import java.util.Date;
 
 /**
+ * 일반광고 기간 정책
  * Created by justicehoop on 2017. 4. 18..
  */
-public class NormalAdRequestStartDatePolicy implements AdPeriodPolicy {
+public class NormalAdRequestPeriodPolicy implements AdPeriodPolicy {
 
     @Override
     public AdPeriod getPeriod(PaymentTransaction.DayOfPayment dayOfPayment, Integer contractDays) {
@@ -23,7 +24,7 @@ public class NormalAdRequestStartDatePolicy implements AdPeriodPolicy {
         int dayOfMonth = now.getDayOfMonth();
         int month = now.getMonthValue();
 
-        if (isPassed(dayOfPayment, dayOfMonth)) {
+        if (isPassed(dayOfPayment.getDayOfMonth(), dayOfMonth)) {
             LocalDate nextMonth = now.plusMonths(1);
             month = nextMonth.getMonthValue();
         }
@@ -31,7 +32,7 @@ public class NormalAdRequestStartDatePolicy implements AdPeriodPolicy {
         return DateUtils.asDate(LocalDate.of(now.getYear(), month, dayOfPayment.getDayOfMonth()));
     }
 
-    private boolean isPassed(PaymentTransaction.DayOfPayment dayOfPayment, int nowDay) {
-        return dayOfPayment.getDayOfMonth() > nowDay;
+    private boolean isPassed(Integer paymentDay, int nowDay) {
+        return paymentDay > nowDay;
     }
 }

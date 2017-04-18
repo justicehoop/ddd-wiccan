@@ -22,7 +22,17 @@ public class PaymentTransaction {
     private PaymentMethod paymentMethod;
     private Integer paidPrice;
     private Integer refundPrice = 0;
+    @Enumerated(EnumType.STRING)
     private DayOfPayment dayOfPayment = DayOfPayment.DAY_5;
+    @Enumerated(EnumType.STRING)
+    private PaidStatus paidStatus = PaidStatus.NOT_PAID;
+
+
+
+    public enum PaidStatus {
+        PAID,
+        NOT_PAID
+    }
 
     public enum DayOfPayment {
         DAY_5(5, "매월 5일"),
@@ -58,6 +68,11 @@ public class PaymentTransaction {
         instance.paidPrice = paidPrice;
         ad.amendPaymentTransaction(instance);
         return  instance;
+    }
+
+    public PaymentTransaction paid() {
+        this.paidStatus = PaidStatus.PAID;
+        return this;
     }
 
 }

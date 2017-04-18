@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.Date;
 
 /**
+ * 광고기간 (Value Object)
  * Created by justicehoop on 2017. 4. 18..
  */
 @Getter

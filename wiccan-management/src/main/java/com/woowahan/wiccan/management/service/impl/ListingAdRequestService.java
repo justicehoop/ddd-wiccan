@@ -39,8 +39,6 @@ public class ListingAdRequestService implements AdRequestService<ListingAdReques
     private AdProductRepository adProductRepository;
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
-    private static final Integer BASE_CONTRACT_DAYS = 30;
-
 
 
     @Override
@@ -51,15 +49,10 @@ public class ListingAdRequestService implements AdRequestService<ListingAdReques
         AdProduct product = findValidAdProduct(command.getAdProductId());
         Dsm dsm = contract.getDsm();
 
-        AdPeriodPolicy policy = AdPeriodPolicyFactory.getPolicy(command.getRequestType());
-        AdPeriod period = policy.getPeriod(command.getDayOfPayment(), BASE_CONTRACT_DAYS);
-
         PaymentMethod paymentMethod = registerPaymentMethod(adAccount, command);
         ListingAd ad = listingAdRepository.save(ListingAd.createOf(product,
                                                                    adShop,
                                                                    adAccount,
-                                                                   period.getStartDate(),
-                                                                   period.getEndDate(),
                                                                    paymentMethod));
 
         dsm.addListAd(ad);

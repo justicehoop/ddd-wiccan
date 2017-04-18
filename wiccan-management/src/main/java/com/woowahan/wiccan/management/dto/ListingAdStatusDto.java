@@ -1,6 +1,7 @@
 package com.woowahan.wiccan.management.dto;
 
 import com.woowahan.wiccan.commons.type.AdStatus;
+import com.woowahan.wiccan.management.entity.ListingAd;
 import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,11 +19,11 @@ public class ListingAdStatusDto {
     private Date endDate;
     private AdStatus adStatus = AdStatus.REQ_ING;
 
-    public static ListingAdStatusDto of(ListingAdStatus status) {
+    public static ListingAdStatusDto of(ListingAd ad) {
         ListingAdStatusDto instance = new ListingAdStatusDto();
-        instance.startDate = status.getStartDate();
-        instance.endDate = status.getEndDate();
-        instance.adStatus = status.getAdStatus();
+        instance.startDate = ad.getStartDate();
+        instance.endDate = ad.getEndDate();
+        instance.adStatus = ad.getAdStatus();
         return instance;
     }
 }

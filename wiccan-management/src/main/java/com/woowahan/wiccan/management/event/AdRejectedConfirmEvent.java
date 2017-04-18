@@ -18,9 +18,8 @@ public class AdRejectedConfirmEvent extends DomainEvent {
 
     public AdRejectedConfirmEvent(ListingAd ad) {
         super(ad.getId());
-        ListingAdStatus status = ad.getStatus();
         this.adId = ad.getId();
-        this.adStatus = status.getAdStatus();
-        this.rejectReason = status.getRejectReason();
+        this.adStatus = ad.getAdStatus();
+        this.rejectReason = ad.getRejectReason();
     }
 }

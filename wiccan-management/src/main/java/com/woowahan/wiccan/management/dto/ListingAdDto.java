@@ -17,7 +17,7 @@ public class ListingAdDto {
     public static ListingAdDto of(ListingAd ad) {
         ListingAdDto instance = new ListingAdDto();
         instance.id = ad.getId();
-        instance.status = ListingAdStatusDto.of(ad.getStatus());
+        instance.status = ListingAdStatusDto.of(ad);
         return instance;
     }
 

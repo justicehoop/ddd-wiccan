@@ -65,7 +65,7 @@ public class MockEntityCreateHelper {
                                    Date startDate,
                                    Date endDate,
                                    PaymentMethod paymentMethod) {
-        return listingAdRepository.save(ListingAd.createOf(product, shop, account, startDate, endDate,paymentMethod));
+        return listingAdRepository.save(ListingAd.createOf(product, shop, account,paymentMethod));
     }
 
     public CreditCard  mockCreditCard() {

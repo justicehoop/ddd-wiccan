@@ -9,7 +9,7 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor(staticName = "of")
-public class AdSyncCommand {
+public class AdStatusNotifyCommand {
     private Long adId;
     private AdStatus status;
 

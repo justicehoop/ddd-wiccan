@@ -1,13 +1,11 @@
 package com.woowahan.wiccan.management.service.impl;
 
-import com.woowahan.wiccan.commons.type.AdStatus;
 import com.woowahan.wiccan.infrastructure.notification.NotificationService;
 import com.woowahan.wiccan.management.dto.AdCancelCommand;
 import com.woowahan.wiccan.management.dto.AdConfirmRejectCommand;
 import com.woowahan.wiccan.management.dto.AdRefundCommand;
 import com.woowahan.wiccan.management.dto.ListingAdDto;
 import com.woowahan.wiccan.management.entity.ListingAd;
-import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import com.woowahan.wiccan.management.ex.ResourceNotFoundException;
 import com.woowahan.wiccan.management.repository.ListingAdRepository;
 import com.woowahan.wiccan.management.service.AdStatusManageService;
@@ -40,10 +38,9 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
      */
     public ListingAdDto cancel(Long adId) {
         ListingAd ad = findValidAd(adId);
-        ListingAdStatus status = ad.getStatus();
 
         Integer refundPrice = ad.calcRefundPrice();
-        status.setStatus(AdStatus.CANCEL);
+//        status.setStatus(AdStatus.CANCEL);
         refundService.refund(ad.getId(), ad.getAccount(), refundPrice);
         // 외부서비스와 연동 되는 부분
         notificationService.send("1644-0025", ad.getAccount().getTelNo(), "광고 승인 거부");
@@ -60,7 +57,6 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
     public ListingAdDto reject(Long adId, AdConfirmRejectCommand command) {
         ListingAd ad = findValidAd(adId);
         ad.reject(command.getRejectReason());
-        //상태변경 히스토리 남기기.
         return ListingAdDto.of(ad);
     }
 
@@ -71,7 +67,6 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
         Integer refundPrice = ad.calcRefundPrice();
         ad.refund(refundPrice);
         refundService.refund(ad.getId(),ad.getAccount(), refundPrice);
-        //상태변경 히스토리 남기기.
         return ListingAdDto.of(ad);
     }
 
