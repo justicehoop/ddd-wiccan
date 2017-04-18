@@ -9,7 +9,6 @@ import com.woowahan.wiccan.management.entity.ListingAd;
 import com.woowahan.wiccan.management.ex.ResourceNotFoundException;
 import com.woowahan.wiccan.management.repository.ListingAdRepository;
 import com.woowahan.wiccan.management.service.AdStatusManageService;
-import com.woowahan.wiccan.management.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,8 +26,6 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
     @Autowired
     private ListingAdRepository listingAdRepository;
     @Autowired
-    private RefundService refundService;
-    @Autowired
     private NotificationService notificationService;
 
     /**
@@ -41,7 +38,7 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
 
         Integer refundPrice = ad.calcRefundPrice();
 //        status.setStatus(AdStatus.CANCEL);
-        refundService.refund(ad.getId(), ad.getAccount(), refundPrice);
+//        refundService.refund(ad.getId(), ad.getAccount(), refundPrice);
         // 외부서비스와 연동 되는 부분
         notificationService.send("1644-0025", ad.getAccount().getTelNo(), "광고 승인 거부");
         return ListingAdDto.of(ad);
@@ -66,7 +63,7 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
 
         Integer refundPrice = ad.calcRefundPrice();
         ad.refund(refundPrice);
-        refundService.refund(ad.getId(),ad.getAccount(), refundPrice);
+//        refundService.refund(ad.getId(),ad.getAccount(), refundPrice);
         return ListingAdDto.of(ad);
     }
 
@@ -75,7 +72,7 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
         ListingAd ad = findValidAd(adId);
 
         ad.cancel();
-        refundService.refund(ad.getId(),ad.getAccount(), ad.getPaidPrice());
+//        refundService.refund(ad.getId(),ad.getAccount(), ad.getPaidPrice());
         return ListingAdDto.of(ad);
     }
 
