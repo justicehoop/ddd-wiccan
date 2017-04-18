@@ -3,15 +3,15 @@ package com.woowahan.wiccan.management.service.impl;
 import com.woowahan.wiccan.management.dto.ListingAdDto;
 import com.woowahan.wiccan.management.dto.ListingAdRequestCommand;
 import com.woowahan.wiccan.management.entity.*;
+import com.woowahan.wiccan.management.entity.rule.period.AdPeriod;
+import com.woowahan.wiccan.management.entity.rule.period.AdPeriodPolicy;
+import com.woowahan.wiccan.management.entity.rule.period.AdPeriodPolicyFactory;
 import com.woowahan.wiccan.management.ex.ResourceNotFoundException;
 import com.woowahan.wiccan.management.ports.externals.model.Shop;
 import com.woowahan.wiccan.management.ports.externals.service.ShopApiService;
-import com.woowahan.wiccan.management.repository.AdAccountRepository;
-import com.woowahan.wiccan.management.repository.AdProductRepository;
-import com.woowahan.wiccan.management.repository.AdShopRepository;
-import com.woowahan.wiccan.management.repository.ListingAdRepository;
-import com.woowahan.wiccan.management.repository.AdAccountDsmContractRepository;
+import com.woowahan.wiccan.management.repository.*;
 import com.woowahan.wiccan.management.service.AdRequestService;
+import com.woowahan.wiccan.management.service.PaymentMethodFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +37,10 @@ public class ListingAdRequestService implements AdRequestService<ListingAdReques
     private AdAccountDsmContractRepository adAccountDsmContractRepository;
     @Autowired
     private AdProductRepository adProductRepository;
+    @Autowired
+    private PaymentMethodRepository paymentMethodRepository;
+    private static final Integer BASE_CONTRACT_DAYS = 30;
+
 
 
     @Override
@@ -46,9 +50,25 @@ public class ListingAdRequestService implements AdRequestService<ListingAdReques
         AdAccountDsmContract contract = findContract(adAccount);
         AdProduct product = findValidAdProduct(command.getAdProductId());
         Dsm dsm = contract.getDsm();
-        ListingAd ad = listingAdRepository.save(ListingAd.createOf(product, adShop, adAccount, command.getStartDate(), command.getEndDate()));
+
+        AdPeriodPolicy policy = AdPeriodPolicyFactory.getPolicy(command.getRequestType());
+        AdPeriod period = policy.getPeriod(command.getDayOfPayment(), BASE_CONTRACT_DAYS);
+
+        PaymentMethod paymentMethod = registerPaymentMethod(adAccount, command);
+        ListingAd ad = listingAdRepository.save(ListingAd.createOf(product,
+                                                                   adShop,
+                                                                   adAccount,
+                                                                   period.getStartDate(),
+                                                                   period.getEndDate(),
+                                                                   paymentMethod));
+
         dsm.addListAd(ad);
         return ListingAdDto.of(ad);
+    }
+
+    private PaymentMethod registerPaymentMethod(AdAccount adAccount,ListingAdRequestCommand command) {
+        return paymentMethodRepository.save(PaymentMethodFactory.createOf(adAccount, command));
+
     }
 
     private AdProduct findValidAdProduct(Long productId) {

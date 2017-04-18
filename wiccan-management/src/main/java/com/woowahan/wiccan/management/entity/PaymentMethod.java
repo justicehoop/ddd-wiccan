@@ -18,6 +18,7 @@ public class PaymentMethod {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ad_account_id")
     private AdAccount adAccount;
+    @Enumerated(EnumType.STRING)
     private Type type;
     @Embedded
     private CreditCard creditCard;

@@ -1,4 +1,4 @@
-package com.woowahan.wiccan.management.entity.strategy;
+package com.woowahan.wiccan.management.entity.rule.refund;
 
 import com.woowahan.wiccan.management.entity.AdProduct;
 
@@ -7,15 +7,15 @@ import com.woowahan.wiccan.management.entity.AdProduct;
  * 환불 전략 Factory (광고 상품 가격 모델에 따른 전략 생성)
  * Created by justicehoop on 2017. 4. 5..
  */
-public abstract class RefundStrategyFactory {
+public abstract class RefundRuleFactory {
 
-    public static RefundStrategy create(AdProduct product) {
+    public static RefundRule create(AdProduct product) {
         AdProduct.CostModel costModel = product.getCostModel();
         switch(costModel) {
             case CPT:
-                return new CptCostModelRefundStrategy();
+                return new CptCostModelRefundRule();
             case CPC:
-                return new NoRefundStrategy();
+                return new DefferedRefundRule();
             default:
                 throw new IllegalArgumentException(String.format("refund strategy for %s product that does not support", product.getCostModel()));
         }

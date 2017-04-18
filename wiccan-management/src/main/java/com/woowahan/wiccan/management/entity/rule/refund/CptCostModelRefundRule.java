@@ -1,4 +1,4 @@
-package com.woowahan.wiccan.management.entity.strategy;
+package com.woowahan.wiccan.management.entity.rule.refund;
 
 import com.woowahan.wiccan.commons.utils.DateUtils;
 import com.woowahan.wiccan.management.entity.ListingAd;
@@ -13,7 +13,7 @@ import java.util.Date;
  * Cpt 가격 정책에 대한 환불 전략
  * Created by justicehoop on 2017. 4. 5..
  */
-public class CptCostModelRefundStrategy implements RefundStrategy {
+public class CptCostModelRefundRule implements RefundRule {
 
     @Override
     public Integer refund(ListingAd ad) {

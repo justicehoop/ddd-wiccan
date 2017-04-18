@@ -8,7 +8,7 @@ import com.woowahan.wiccan.management.dto.ListingAdDto;
 /**
  * Created by justicehoop on 2017. 4. 5..
  */
-public interface AdStatusService {
+public interface AdStatusManageService {
 
     ListingAdDto confirm(Long adId);
 

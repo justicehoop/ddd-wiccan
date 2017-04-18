@@ -2,9 +2,8 @@ package com.woowahan.wiccan.management.entity;
 
 import com.woowahan.wiccan.commons.entity.BaseEntity;
 import com.woowahan.wiccan.commons.event.sourcing.DomainEventPublisher;
-import com.woowahan.wiccan.commons.type.AdStatus;
-import com.woowahan.wiccan.management.entity.strategy.RefundStrategy;
-import com.woowahan.wiccan.management.entity.strategy.RefundStrategyFactory;
+import com.woowahan.wiccan.management.entity.rule.refund.RefundRule;
+import com.woowahan.wiccan.management.entity.rule.refund.RefundRuleFactory;
 import com.woowahan.wiccan.management.event.AdRejectedConfirmEvent;
 import com.woowahan.wiccan.management.event.AdStatusChangedEvent;
 import lombok.EqualsAndHashCode;
@@ -28,9 +27,11 @@ public class ListingAd extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private AdAccount account;
     @ManyToOne
-    private AdShop adShop;
+    private AdShop shop;
     @Embedded
     private ListingAdStatus status;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private PaymentMethod paymentMethod;
     @OneToOne(fetch = FetchType.LAZY)
     private PaymentTransaction paymentTransaction;
     @Enumerated(EnumType.STRING)
@@ -96,15 +97,17 @@ public class ListingAd extends BaseEntity {
         return this;
     }
 
-    public Integer calcRefundPrice() {
-        RefundStrategy strategy = RefundStrategyFactory.create(adProduct);
-        return strategy.refund(this);
-    }
-
     ListingAd amendPaymentTransaction(PaymentTransaction transaction) {
         this.paymentTransaction = transaction;
         return this;
     }
+
+    public Integer calcRefundPrice() {
+        RefundRule strategy = RefundRuleFactory.create(adProduct);
+        return strategy.refund(this);
+    }
+
+
 
     public ListingAd refund(Integer refundPrice) {
         if (!status.isRefundable()) {
@@ -116,6 +119,10 @@ public class ListingAd extends BaseEntity {
         return this;
     }
 
+    public PaymentTransaction.DayOfPayment getDayOfPayment() {
+        return paymentTransaction.getDayOfPayment();
+    }
+
     public Integer getPaidPrice() {
         return paymentTransaction.getPaidPrice();
     }
@@ -125,12 +132,14 @@ public class ListingAd extends BaseEntity {
                                      AdShop adShop,
                                      AdAccount account,
                                      Date startDate,
-                                     Date endDate) {
+                                     Date endDate,
+                                     PaymentMethod paymentMethod) {
         ListingAd instance = new ListingAd();
         instance.adProduct = adProduct;
         instance.account = account;
-        instance.adShop = adShop;
+        instance.shop = adShop;
         instance.status = ListingAdStatus.createOf(instance, startDate, endDate);
+        instance.paymentMethod = paymentMethod;
         return instance;
     }
 

@@ -25,14 +25,20 @@ public class PaymentTransaction {
     private DayOfPayment dayOfPayment = DayOfPayment.DAY_5;
 
     public enum DayOfPayment {
-        DAY_5("매월 5일"),
-        DAY_15("매월 15일"),
-        DAY_25("매월 25일");
+        DAY_5(5, "매월 5일"),
+        DAY_15(15, "매월 15일"),
+        DAY_25(25, "매월 25일");
 
+        private final Integer dayOfMonth;
         private final String desc;
 
-        DayOfPayment(String desc) {
+        DayOfPayment(Integer dayOfMonth, String desc) {
+            this.dayOfMonth = dayOfMonth;
             this.desc = desc;
+        }
+
+        public Integer getDayOfMonth() {
+            return dayOfMonth;
         }
     }
 

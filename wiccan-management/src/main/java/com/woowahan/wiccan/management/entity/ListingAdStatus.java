@@ -47,6 +47,12 @@ public class ListingAdStatus {
         }
     }
 
+    ListingAdStatus amendPeriod(Date startDate, Date endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        return this;
+    }
+
     ListingAdStatus confirmed() {
         checkConfirmable();
         changeStatus(AdStatus.CONFIRMED);
@@ -69,6 +75,7 @@ public class ListingAdStatus {
 
     ListingAdStatus refund() {
         changeStatus(AdStatus.REFUND_FINISH);
+
         return this;
     }
 
@@ -129,4 +136,7 @@ public class ListingAdStatus {
         return instance;
     }
 
+    public void setStatus(AdStatus status) {
+        this.adStatus = status;
+    }
 }

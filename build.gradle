@@ -244,6 +244,7 @@ project('wiccan-management') {
 
     dependencies {
         compile project(':commons')
+        compile project(':wiccan-messaging')
         compile("org.modelmapper:modelmapper:$modelMapperVersion")
         compile('org.springframework.boot:spring-boot-starter-web')
         compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -292,6 +293,7 @@ project('wiccan-impression') {
 
     dependencies {
         compile project(':commons')
+        compile project(':wiccan-messaging')
         compile("org.projectlombok:lombok:$lombokVersion")
         compile("org.springframework.boot:spring-boot-starter-web")
         testCompile("org.springframework.boot:spring-boot-starter-test")
@@ -300,3 +302,13 @@ project('wiccan-impression') {
 }
 
 
+project('wiccan-messaging') {
+    description = "광고 노출"
+    bootRepackage.enabled = false
+    apply plugin: 'java'
+
+
+    dependencies {
+        compile project(':commons')
+    }
+}

@@ -15,6 +15,7 @@ import java.util.List;
  */
 @Repository
 public class ElastingSearchAdRepository implements AdRepository {
+
     @Override
     public List<ListingAd> findAll(String productCode, GeoBasedListingAdSearchCommand searchCommand) {
         List<ListingAd> ads = new ArrayList<>();

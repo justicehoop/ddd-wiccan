@@ -60,7 +60,6 @@ public class DomainEventPublisher {
     private boolean isMatchedListener(final DomainEventListener<? extends DomainEvent> listener, ResolvableType type) {
         Class<?> listenerType = GenericTypeResolver.resolveTypeArgument(listener.getClass(), DomainEventListener.class);
         log.debug("genericSuperClass:{}, matched:{}", listenerType.getName(),listenerType.isAssignableFrom(type.getRawClass()));
-
         return listenerType.isAssignableFrom(type.getRawClass());
     }
 

@@ -1,13 +1,16 @@
 package com.woowahan.wiccan.management.service.impl;
 
+import com.woowahan.wiccan.commons.type.AdStatus;
+import com.woowahan.wiccan.infrastructure.notification.NotificationService;
 import com.woowahan.wiccan.management.dto.AdCancelCommand;
 import com.woowahan.wiccan.management.dto.AdConfirmRejectCommand;
 import com.woowahan.wiccan.management.dto.AdRefundCommand;
 import com.woowahan.wiccan.management.dto.ListingAdDto;
 import com.woowahan.wiccan.management.entity.ListingAd;
+import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import com.woowahan.wiccan.management.ex.ResourceNotFoundException;
 import com.woowahan.wiccan.management.repository.ListingAdRepository;
-import com.woowahan.wiccan.management.service.AdStatusService;
+import com.woowahan.wiccan.management.service.AdStatusManageService;
 import com.woowahan.wiccan.management.service.RefundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,11 +25,30 @@ import java.util.Optional;
  */
 @Transactional
 @Service
-public class AdStatusServiceImpl implements AdStatusService {
+public class AdStatusManageServiceImpl implements AdStatusManageService {
     @Autowired
     private ListingAdRepository listingAdRepository;
     @Autowired
     private RefundService refundService;
+    @Autowired
+    private NotificationService notificationService;
+
+    /**
+     * Transaction script 예제
+     * @param adId
+     * @return
+     */
+    public ListingAdDto cancel(Long adId) {
+        ListingAd ad = findValidAd(adId);
+        ListingAdStatus status = ad.getStatus();
+
+        Integer refundPrice = ad.calcRefundPrice();
+        status.setStatus(AdStatus.CANCEL);
+        refundService.refund(ad.getId(), ad.getAccount(), refundPrice);
+        // 외부서비스와 연동 되는 부분
+        notificationService.send("1644-0025", ad.getAccount().getTelNo(), "광고 승인 거부");
+        return ListingAdDto.of(ad);
+    }
 
     @Override
     public ListingAdDto confirm(Long adId) {
@@ -59,7 +81,6 @@ public class AdStatusServiceImpl implements AdStatusService {
 
         ad.cancel();
         refundService.refund(ad.getId(),ad.getAccount(), ad.getPaidPrice());
-        //상태변경 히스토리 남기기.
         return ListingAdDto.of(ad);
     }
 

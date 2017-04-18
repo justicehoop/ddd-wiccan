@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by justicehoop on 2017. 4. 6..
@@ -62,12 +63,13 @@ public class MockEntityCreateHelper {
                                    AdShop shop,
                                    AdAccount account,
                                    Date startDate,
-                                   Date endDate) {
-        return listingAdRepository.save(ListingAd.createOf(product, shop, account, startDate, endDate));
+                                   Date endDate,
+                                   PaymentMethod paymentMethod) {
+        return listingAdRepository.save(ListingAd.createOf(product, shop, account, startDate, endDate,paymentMethod));
     }
 
     public CreditCard  mockCreditCard() {
-        return CreditCard.of(CreditCard.CardType.PERSONAL, ValueCreator.randomString(4), ValueCreator.randomTelephone(), ValueCreator.randomTelephone(), "11", "2020", "11", "1970-01-01", ValueCreator.randomString(4)+"@" + "gmail.com");
+        return CreditCard.of(UUID.randomUUID().toString());
     }
 
 

@@ -7,7 +7,7 @@ import com.woowahan.wiccan.management.dto.AdCancelCommand;
 import com.woowahan.wiccan.management.dto.ListingAdDto;
 import com.woowahan.wiccan.management.dto.ListingAdStatusDto;
 import com.woowahan.wiccan.management.entity.*;
-import com.woowahan.wiccan.management.service.AdStatusService;
+import com.woowahan.wiccan.management.service.AdStatusManageService;
 import com.woowahan.wiccan.management.service.ManagementTestBase;
 import com.woowahan.wiccan.management.service.MockEntityCreateHelper;
 import org.junit.Assert;
@@ -23,11 +23,11 @@ import static org.hamcrest.Matchers.is;
  * Created by justicehoop on 2017. 4. 6..
  */
 @Transactional
-public class AdAdStatusServiceImplTest extends ManagementTestBase {
+public class AdAdStatusManageServiceImplTest extends ManagementTestBase {
     @Autowired
     private MockEntityCreateHelper mockEntityCreateHelper;
     @Autowired
-    private AdStatusService adStatusService;
+    private AdStatusManageService adStatusManageService;
 
     private ListingAd makeAd() {
         AdAccount adAccount = mockEntityCreateHelper.mockAccount(ValueCreator.randomString(4));
@@ -35,9 +35,8 @@ public class AdAdStatusServiceImplTest extends ManagementTestBase {
         Dsm dsm = mockEntityCreateHelper.mockDsm(Dsm.DsmType.DIRECT);
         AdProduct adProduct = mockEntityCreateHelper.mockProduct(AdProduct.CostModel.CPT);
 
-
-        ListingAd listingAd = mockEntityCreateHelper.mockListingAd(adProduct, adShop, adAccount, new Date(), DateUtils.plusDaysAsDate(new Date(), 30));
         PaymentMethod paymentMethod = mockEntityCreateHelper.mockPaymentMethod(adAccount, mockEntityCreateHelper.mockCreditCard());
+        ListingAd listingAd = mockEntityCreateHelper.mockListingAd(adProduct, adShop, adAccount, new Date(), DateUtils.plusDaysAsDate(new Date(), 30),paymentMethod);
         mockEntityCreateHelper.mockPaymentTransaction(listingAd, paymentMethod, 80000);
         return listingAd;
     }
@@ -48,7 +47,7 @@ public class AdAdStatusServiceImplTest extends ManagementTestBase {
         ListingAd listingAd = makeAd();
 
         //When
-        ListingAdDto canceledAd = adStatusService.cancel(listingAd.getId(), AdCancelCommand.of(true, "테스트"));
+        ListingAdDto canceledAd = adStatusManageService.cancel(listingAd.getId(), AdCancelCommand.of(true, "테스트"));
 
         //Then
         Assert.assertNotNull(canceledAd);

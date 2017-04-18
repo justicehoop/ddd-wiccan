@@ -1,6 +1,6 @@
 package com.woowahan.wiccan.management.dto;
 
-import com.woowahan.wiccan.management.entity.PaymentTransaction;
+import com.woowahan.wiccan.management.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +20,31 @@ public class ListingAdRequestCommand {
     private Long adProductId;
     private String description;
     private String shopId;
-    private Date startDate;
-    private Date endDate;
     private PaymentTransaction.DayOfPayment dayOfPayment;
+    private PaymentMethod.Type paymentMethodType = PaymentMethod.Type.AUTO_PAYMENT;
+    private ListingAd.RequestType requestType;
+    private CreditCardCommand creditCard;
+    private BankAccountCommand bankAccount;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CreditCardCommand {
+        private String billKey;
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class BankAccountCommand {
+        private String bankName;
+        private String bankOwnerName;
+        private String birthday;
+        private String accountNumber;
+    }
+
+    public boolean isCardPayment() {
+        return paymentMethodType == PaymentMethod.Type.CARD;
+    }
 
 }
