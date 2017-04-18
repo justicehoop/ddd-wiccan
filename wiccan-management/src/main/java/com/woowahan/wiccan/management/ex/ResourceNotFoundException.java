@@ -6,7 +6,7 @@ package com.woowahan.wiccan.management.ex;
 public class ResourceNotFoundException extends RuntimeException {
 
     public ResourceNotFoundException() {
-        super("shop does not exists!");
+        super("shop does not exist!");
     }
 
     public ResourceNotFoundException(String msg) {

@@ -32,6 +32,6 @@ public class AdConfirmedOfPaymentServiceImpl implements AdConfirmationOfPaymentS
 
     private ListingAd findValidAd(Long adId) {
         return Optional.ofNullable(listingAdRepository.findOne(adId))
-                        .orElseThrow(() -> new ResourceNotFoundException(String.format("ad[id:%d] does not exists!", adId)));
+                        .orElseThrow(() -> new ResourceNotFoundException(String.format("ad[id:%d] does not exist!", adId)));
     }
 }
