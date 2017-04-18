@@ -3,7 +3,6 @@ package com.woowahan.wiccan.management.event;
 import com.woowahan.wiccan.commons.event.sourcing.DomainEvent;
 import com.woowahan.wiccan.commons.type.AdStatus;
 import com.woowahan.wiccan.management.entity.ListingAd;
-import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import lombok.Getter;
 
 /**

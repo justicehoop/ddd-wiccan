@@ -2,7 +2,6 @@ package com.woowahan.wiccan.management.dto;
 
 import com.woowahan.wiccan.commons.type.AdStatus;
 import com.woowahan.wiccan.management.entity.ListingAd;
-import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -2,7 +2,6 @@ package com.woowahan.wiccan.management.entity.rule.refund;
 
 import com.woowahan.wiccan.commons.utils.DateUtils;
 import com.woowahan.wiccan.management.entity.ListingAd;
-import com.woowahan.wiccan.management.entity.ListingAdStatus;
 import com.woowahan.wiccan.management.entity.PaymentTransaction;
 
 import java.time.LocalDateTime;
