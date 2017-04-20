@@ -13,6 +13,8 @@ public class AdPeriod {
     private Date startDate;
     private Date endDate;
 
+    private AdPeriod() {}
+
     public static AdPeriod of(Date startDate, Date endDate) {
         AdPeriod period = new AdPeriod();
         period.startDate = startDate;

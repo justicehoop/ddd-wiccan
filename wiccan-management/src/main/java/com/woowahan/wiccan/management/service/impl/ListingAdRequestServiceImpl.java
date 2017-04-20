@@ -23,7 +23,7 @@ import java.util.Optional;
  */
 @Transactional
 @Service
-public class ListingAdRequestService implements AdRequestService<ListingAdRequestCommand, ListingAdDto> {
+public class ListingAdRequestServiceImpl implements AdRequestService<ListingAdRequestCommand, ListingAdDto> {
 
     @Autowired
     private ListingAdRepository listingAdRepository;

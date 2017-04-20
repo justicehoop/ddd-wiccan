@@ -33,6 +33,7 @@ public class AdStatusManageServiceImpl implements AdStatusManageService {
      * @param adId
      * @return
      */
+    @Deprecated
     public ListingAdDto cancel(Long adId) {
         ListingAd ad = findValidAd(adId);
 

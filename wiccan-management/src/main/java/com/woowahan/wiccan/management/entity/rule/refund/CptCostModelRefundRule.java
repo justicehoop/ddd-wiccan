@@ -14,6 +14,8 @@ import java.util.Date;
  */
 public class CptCostModelRefundRule implements RefundRule {
 
+    CptCostModelRefundRule() {}
+
     @Override
     public Integer refund(ListingAd ad) {
         Integer pricePerDay = calculatePricePerDay(ad);

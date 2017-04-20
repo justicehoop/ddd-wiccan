@@ -36,7 +36,7 @@ public class MockEntityCreateHelper {
     }
 
     public AdProduct mockProduct(AdProduct.CostModel costModel) {
-        return adProductRepository.save(AdProduct.of(ValueCreator.randomString(4), ValueCreator.randomString(4), costModel));
+        return adProductRepository.save(AdProduct.of(ValueCreator.randomString(4), ValueCreator.randomString(4), costModel, 80000));
     }
 
     public AdShop mockShop(String name) {

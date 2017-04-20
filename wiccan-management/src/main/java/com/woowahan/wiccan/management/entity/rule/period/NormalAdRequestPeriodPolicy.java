@@ -11,6 +11,7 @@ import java.util.Date;
  * Created by justicehoop on 2017. 4. 18..
  */
 public class NormalAdRequestPeriodPolicy implements AdPeriodPolicy {
+    NormalAdRequestPeriodPolicy() {}
 
     @Override
     public AdPeriod getPeriod(PaymentTransaction.DayOfPayment dayOfPayment, Integer contractDays) {

@@ -40,8 +40,7 @@ public class ListingAd extends BaseEntity {
     private AdStatus adStatus = AdStatus.REQ_ING;
     private String rejectReason;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private PaymentMethod paymentMethod;
+
     @OneToOne(fetch = FetchType.LAZY)
     private PaymentTransaction paymentTransaction;
     @Enumerated(EnumType.STRING)
@@ -230,7 +229,7 @@ public class ListingAd extends BaseEntity {
         instance.adProduct = adProduct;
         instance.account = account;
         instance.shop = adShop;
-        instance.paymentMethod = paymentMethod;
+        instance.paymentTransaction = PaymentTransaction.of(instance, paymentMethod, adProduct.getPrice());
         return instance;
     }
 

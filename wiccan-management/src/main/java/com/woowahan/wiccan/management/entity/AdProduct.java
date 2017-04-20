@@ -21,6 +21,7 @@ public class AdProduct extends BaseEntity {
     private String description;
     @Enumerated
     private CostModel costModel = CostModel.CPT;
+    private Integer price;
 
     public enum CostModel {
         CPT("기간제 상품"),
@@ -36,12 +37,13 @@ public class AdProduct extends BaseEntity {
 
     AdProduct() { }
 
-    public static AdProduct of(String name, String description, CostModel costModel) {
+    public static AdProduct of(String name, String description, CostModel costModel, Integer price) {
         AdProduct instance = new AdProduct();
         instance.code = UUID.randomUUID().toString();
         instance.name = name;
         instance.description = description;
         instance.costModel = costModel;
+        instance.price = price;
         return instance;
     }
 }

@@ -7,6 +7,9 @@ import com.woowahan.wiccan.management.entity.ListingAd;
  * Created by justicehoop on 2017. 4. 6..
  */
 public class DefferedRefundRule implements RefundRule {
+
+    DefferedRefundRule() {}
+
     @Override
     public Integer refund(ListingAd ad) {
         return 0;

@@ -60,12 +60,12 @@ public class PaymentTransaction {
         return this;
     }
 
-    public static PaymentTransaction of(ListingAd ad,PaymentMethod paymentMethod, Integer paidPrice) {
+    public static PaymentTransaction of(ListingAd ad,PaymentMethod paymentMethod, Integer price) {
         PaymentTransaction instance = new PaymentTransaction();
         instance.adId = ad.getId();
         instance.ad = ad;
         instance.paymentMethod = paymentMethod;
-        instance.paidPrice = paidPrice;
+        instance.paidPrice = price;
         ad.amendPaymentTransaction(instance);
         return  instance;
     }

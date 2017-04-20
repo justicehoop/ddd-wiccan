@@ -13,6 +13,8 @@ public class RapidAdRequestPeriodPolicy implements AdPeriodPolicy {
 
     private static final Integer START_DATE_INTERVAL_FROM_TODAY = 1;
 
+    RapidAdRequestPeriodPolicy() { }
+
     @Override
     public AdPeriod getPeriod(PaymentTransaction.DayOfPayment dayOfPayment, Integer contractDays) {
         Date nowDate = DateUtils.getNowDate();

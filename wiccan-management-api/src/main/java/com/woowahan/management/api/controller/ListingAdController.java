@@ -22,7 +22,7 @@ public class ListingAdController {
     private AdStatusManageService adStatusManageService;
 
     @PostMapping("")
-    public ListingAdDto adRequest(@RequestBody ListingAdRequestCommand command) {
+    public ListingAdDto requestAd(@RequestBody ListingAdRequestCommand command) {
         return listingAdRequestService.applyFor(command);
     }
 
