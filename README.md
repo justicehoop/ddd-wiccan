@@ -16,16 +16,16 @@ CPT상품의 기본 계약 기간은 30일이다
 빠른광고 신청은 광고비 입금 후 익일 부터 광고가 시작 된다.
 
 * common
-  서브 프로젝트에서 공통적으로 사용할 Entity 및 라이브러리 (Domain Event Pub/Sub기능 제공)
+서브 프로젝트에서 공통적으로 사용할 Entity 및 라이브러리 (Domain Event Pub/Sub기능 제공)
 
 * wiccan-management
-  광고 구매 및 상태 관리(backoffice) business logic 제공
+광고 구매 및 상태 관리(backoffice) business logic 제공
 
 * wiccan-management-api
-  광고 구매 상태 관리(backoffice) api business logic 제공
+광고 구매 상태 관리(backoffice) api business logic 제공
 
 * wiccan-impression
-  광고노출 api 서버
+광고노출 api 서버
 
 * wiccan-impression
-  messaging queue를 이용해 pub/sub 기능을 제공
+messaging queue를 이용해 pub/sub 기능을 제공
